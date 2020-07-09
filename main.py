@@ -1,14 +1,12 @@
-from google.cloud import texttospeech
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-import json
-import os
-from webdriver_manager.firefox import GeckoDriverManager
-from selenium.webdriver import ActionChains
+from __future__ import print_function
 
+from google.cloud import texttospeech
+import os
+from selenium.webdriver import ActionChains
 import pyautogui
 import clipboard
 import urllib.request
+from GDocs import getText, addTitle, removeTitle, LOG_DOC_ID, ADD_DOC_ID
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.getcwd() + "/credentials.json"
 
@@ -60,7 +58,8 @@ def synthesizeText(text):
 
 
 if __name__ == "__main__":
-    driverOuter = webdriver.Firefox(executable_path=GeckoDriverManager().install())
-    saveImagebySearch("Python", driverOuter)
-    driverOuter.quit()
+    # driverOuter = webdriver.Firefox(executable_path=GeckoDriverManager().install())
+    # saveImagebySearch("Python", driverOuter)
+    # driverOuter.quit()
     # synthesizeText('Google Cloud Text-to-Speech enables developers to synthesize natural-sounding speech with 100+ voices, available in multiple languages and variants. It applies DeepMind’s groundbreaking research in WaveNet and Google’s powerful neural networks to deliver the highest fidelity possible. As an easy-to-use API, you can create lifelike interactions with your users, across many applications and devices.')
+    pass

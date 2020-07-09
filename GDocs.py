@@ -23,7 +23,7 @@ if os.path.exists('token.pickle'):
 service = build('docs', 'v1', credentials=creds)
 
 
-def initToken(id):
+def initToken():
     """Shows basic usage of the Docs API.
     Prints the title of a sample document.
     """
@@ -47,12 +47,6 @@ def initToken(id):
             pickle.dump(creds, token)
 
     service = build('docs', 'v1', credentials=creds)
-
-    # Retrieve the documents contents from the Docs service.
-    document = service.documents().get(documentId=id).execute()
-
-    print('The title of the document is: {}'.format(document.get('title')))
-
 
 def addTitle(title, id):
     title += '\n'

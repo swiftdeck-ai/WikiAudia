@@ -7,6 +7,7 @@ import pyautogui
 import clipboard
 import urllib.request
 from GDocs import getText, addTitle, removeTitle, LOG_DOC_ID, ADD_DOC_ID
+import wikipedia
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.getcwd() + "/credentials.json"
 
@@ -56,10 +57,25 @@ def synthesizeText(text):
         # Write the response to the output file.
         out.write(response.audio_content)
 
+def main():
+    # Get list of chosen topics
+    topicArray = getText(ADD_DOC_ID).strip().split('\n')
+    # remove whitespace if any
+    topic = topicArray[0].strip()
+    # Remove topic from ADD Doc
+    removeTitle(topic, ADD_DOC_ID)
+    # If Add doc is empty then choose a random article
+    if getText(ADD_DOC_ID).strip() == '' and topic == '':
+        topic = wikipedia.random()
+    # If a video over it has not already been made then make the video
+    if topic not in getText(LOG_DOC_ID).split('\n'):
+        addTitle(topic, LOG_DOC_ID)
+        # Video stuff here
 
 if __name__ == "__main__":
     # driverOuter = webdriver.Firefox(executable_path=GeckoDriverManager().install())
     # saveImagebySearch("Python", driverOuter)
     # driverOuter.quit()
     # synthesizeText('Google Cloud Text-to-Speech enables developers to synthesize natural-sounding speech with 100+ voices, available in multiple languages and variants. It applies DeepMind’s groundbreaking research in WaveNet and Google’s powerful neural networks to deliver the highest fidelity possible. As an easy-to-use API, you can create lifelike interactions with your users, across many applications and devices.')
+    main()
     pass

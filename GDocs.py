@@ -65,21 +65,21 @@ def addTitle(title, id):
 
 def removeTitle(title, id):
     global service
-
-    requests = [
-        {
-            'replaceAllText': {
-                'replaceText': '',
-                'containsText': {
-                    'text': title,
-                    'matchCase': 'False'
+    if title is not '':
+        requests = [
+            {
+                'replaceAllText': {
+                    'replaceText': '',
+                    'containsText': {
+                        'text': title,
+                        'matchCase': 'False'
+                    }
                 }
-            }
 
-        }
-    ]
-    result = service.documents().batchUpdate(
-        documentId=id, body={'requests': requests}).execute()
+            }
+        ]
+        result = service.documents().batchUpdate(
+            documentId=id, body={'requests': requests}).execute()
 
 
 def get_credentials():

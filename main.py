@@ -12,7 +12,8 @@ import urllib.request
 
 def saveImagebySearch(keyword,driver):
 
-    url = "https://www.google.com/search?q="+keyword+"&tbm=isch&safe=active&safe=active&tbs=isz%3Al&hl=en&ved=0CAEQpwVqFwoTCOjDk_vevuoCFQAAAAAdAAAAABAH&biw=1905&bih=949"
+    url = "https://www.google.com/search?as_st=y&tbm=isch&hl=en&as_q="+keyword+"&as_epq=&as_oq=&as_eq=&cr=&as_sitesearch=&safe=active&tbs=isz:lt,islt:xga"
+    
     driver.get(url)
     image = driver.find_element_by_xpath("//*[@id=\"islrg\"]/div[1]/div[1]/a[1]/div[1]/img")
     image.click()
@@ -22,12 +23,12 @@ def saveImagebySearch(keyword,driver):
     pyautogui.press(['down'], presses=10)
     pyautogui.press(['enter'])
     imagelocation = clipboard.paste()
-    urllib.request.urlretrieve(imagelocation, "downloads/{}.jpg".format(keyword))
+    urllib.request.urlretrieve(imagelocation, "downloads/{}.jpg".format(''.join(keyword.title().split())))
     driver.quit()
 
 
 if __name__ == "__main__":
     driverOuter = webdriver.Firefox(executable_path=GeckoDriverManager().install())
-    saveImagebySearch("Steve Jobs", driverOuter)
+    saveImagebySearch("INSERT_KEYWORD_HERE", driverOuter)
     driverOuter.quit()
     

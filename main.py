@@ -24,7 +24,6 @@ def saveImagebySearch(keyword,driver):
     pyautogui.press(['enter'])
     imagelocation = clipboard.paste()
     urllib.request.urlretrieve(imagelocation, "downloads/{}.jpg".format(''.join(keyword.title().split())))
-    driver.quit()
 
 
 if __name__ == "__main__":

@@ -90,9 +90,9 @@ def formatdatetimetosub(dt):
   return subformat
 
 def createVidSnippet(sentences, videofilename):
-    intro_silence = AudioSegment.silent(duration=5000)
-    intro_silence.export("./downloads/audio/runningaudio.mp3", format='mp3')
-    runningsound = AudioSegment.from_mp3("./downloads/audio/runningaudio.mp3")
+    runningsound = AudioSegment.silent(duration=1000)
+    # intro_silence.export("./downloads/audio/runningaudio.mp3", format='mp3')
+    # runningsound = AudioSegment.from_mp3("./downloads/audio/runningaudio.mp3")
     videoClipCreated = VideoFileClip(videofilename)
     clips = [videoClipCreated]
     ms = 1000.0
@@ -132,6 +132,8 @@ def createVidSnippet(sentences, videofilename):
             textClipCreated = TextClip(sentence['title'], font='TimesNewRoman-regular',color='white',fontsize=100).set_position('center').set_duration(2)
 
             clips.append(textClipCreated)
+            sound = AudioSegment.silent(duration=2000)
+            runningsound = runningsound + sound
             deltatime = 2000
             text = sentence['title']
         
@@ -167,7 +169,7 @@ if __name__ == "__main__":
 
     concat_clip = concatenate_videoclips(clips, method="compose")
     concat_clip.write_videofile("video_with_python_test.mp4", fps=10)
-    p_wiki = wiki_wiki.page("Apple Inc.")
+    p_wiki = wiki_wiki.page("World War II")
     orderedRenderList = [
         # {"title":"Summary"},
     ]

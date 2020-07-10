@@ -4,97 +4,102 @@ Apple Inc.
 
 2
 00:00:01,000 --> 00:00:03,000
-History
+Chronology
 
 3
-00:00:03,000 --> 00:00:05,000
-1976–1984: Founding and incorporation
+00:00:03,000 --> 00:00:14,736
+The start of the war in Europe is generally held to be 1 September 1939, beginning with the German invasion of Poland; the United Kingdom and France declared war on Germany two days later
 
 4
-00:00:05,000 --> 00:00:14,240
-Apple Computer Company was founded on April 1, 1976, by Steve Jobs, Steve Wozniak, and Ronald Wayne as a business partnership
+00:00:14,736 --> 00:00:30,360
+The dates for the beginning of war in the Pacific include the start of the Second Sino-Japanese War on 7 July 1937, or even the Japanese invasion of Manchuria on 19 September 1931.Others follow the British historian A.J.P
 
 5
-00:00:14,240 --> 00:00:23,624
-The company's first product was the Apple I, a computer designed and hand-built entirely by Wozniak, and first shown to the public at the Homebrew Computer Club
+00:00:30,360 --> 00:00:39,192
+Taylor, who held that the Sino-Japanese War and war in Europe and its colonies occurred simultaneously, and the two wars merged in 1941
 
 6
-00:00:23,624 --> 00:00:33,824
-Apple I was sold as a motherboard (with CPU, RAM, and basic textual-video chips)—a base kit concept which would now not be marketed as a complete personal computer
+00:00:39,192 --> 00:00:41,832
+This article uses the conventional dating
 
 7
-00:00:33,824 --> 00:00:47,192
-The Apple I went on sale in July 1976 and was market-priced at $666.66 ($2,995 in 2019 dollars, adjusted for inflation)
+00:00:41,832 --> 00:00:50,208
+Other starting dates sometimes used for World War II include the Italian invasion of Abyssinia on 3 October 1935
 
 8
-00:00:47,192 --> 00:00:57,680
-Wozniak later said he had no idea about the relation between the number and the mark of the beast, and that he came up with the price because he liked "repeating digits".Apple Computer, Inc
+00:00:50,208 --> 00:01:05,832
+The British historian Antony Beevor views the beginning of World War II as the Battles of Khalkhin Gol fought between Japan and the forces of Mongolia and the Soviet Union from May to September 1939.The exact date of the war's end is also not universally agreed upon
 
 9
-00:00:57,680 --> 00:01:10,040
-was incorporated on January 3, 1977, without Wayne, who had left and sold his share of the company back to Jobs and Wozniak for $800 only twelve days after having co-founded Apple
+00:01:05,832 --> 00:01:20,184
+It was generally accepted at the time that the war ended with the armistice of 14 August 1945 (V-J Day), rather than the formal surrender of Japan, which was on 2 September 1945 that officially ended the war in Asia
 
 10
-00:01:10,040 --> 00:01:18,704
-Multimillionaire Mike Markkula provided essential business expertise and funding of $250,000 during the incorporation of Apple
+00:01:20,184 --> 00:01:23,808
+A peace treaty with Japan was signed in 1951
 
 11
-00:01:18,704 --> 00:01:25,184
-During the first five years of operations, revenues grew exponentially, doubling about every four months
+00:01:23,808 --> 00:01:33,600
+A treaty regarding Germany's future allowed the reunification of East and West Germany to take place in 1990 and resolved most post-World War II issues
 
 12
-00:01:25,184 --> 00:01:46,568
-Between September 1977 and September 1980, yearly sales grew from $775,000 to $118 million, an average annual growth rate of 533%.The Apple II, also invented by Wozniak, was introduced on April 16, 1977, at the first West Coast Computer Faire
+00:01:33,600 --> 00:01:38,448
+No formal peace treaty between Japan and the Soviet Union was ever signed.
 
 13
-00:01:46,568 --> 00:01:55,016
-It differs from its major rivals, the TRS-80 and Commodore PET, because of its character cell-based color graphics and open architecture
+00:01:38,448 --> 00:01:40,448
+Background
 
 14
-00:01:55,016 --> 00:02:07,304
-While early Apple II models use ordinary cassette tapes as storage devices, they were superseded by the introduction of a ​5 1⁄4-inch floppy disk drive and interface called the Disk II in 1978
+00:01:40,448 --> 00:01:42,448
+Europe
 
 15
-00:02:07,304 --> 00:02:17,624
-The Apple II was chosen to be the desktop platform for the first "killer application" of the business world: VisiCalc, a spreadsheet program released in 1979
+00:01:42,448 --> 00:01:58,576
+World War I had radically altered the political European map, with the defeat of the Central Powers—including Austria-Hungary, Germany, Bulgaria and the Ottoman Empire—and the 1917 Bolshevik seizure of power in Russia, which eventually led to the founding of the Soviet Union
 
 16
-00:02:17,624 --> 00:02:26,192
-VisiCalc created a business market for the Apple II and gave home users an additional reason to buy an Apple II: compatibility with the office
+00:01:58,576 --> 00:02:18,952
+Meanwhile, the victorious Allies of World War I, such as France, Belgium, Italy, Romania, and Greece, gained territory, and new nation-states were created out of the collapse of Austria-Hungary and the Ottoman and Russian Empires.
+
+To prevent a future world war, the League of Nations was created during the 1919 Paris Peace Conference
 
 17
-00:02:26,192 --> 00:02:36,848
-Before VisiCalc, Apple had been a distant third place competitor to Commodore and Tandy.By the end of the 1970s, Apple had a staff of computer designers and a production line
+00:02:18,952 --> 00:02:39,640
+The organisation's primary goals were to prevent armed conflict through collective security, military and naval disarmament, and settling international disputes through peaceful negotiations and arbitration.
+Despite strong pacifist sentiment after World War I, its aftermath still caused irredentist and revanchist nationalism in several European states
 
 18
-00:02:36,848 --> 00:02:44,696
-The company introduced the Apple III in May 1980 in an attempt to compete with IBM in the business and corporate computing market
+00:02:39,640 --> 00:02:48,592
+These sentiments were especially marked in Germany because of the significant territorial, colonial, and financial losses incurred by the Treaty of Versailles
 
 19
-00:02:44,696 --> 00:02:56,384
-Jobs and several Apple employees, including human–computer interface expert Jef Raskin, visited Xerox PARC in December 1979 to see a demonstration of the Xerox Alto
+00:02:48,592 --> 00:03:12,880
+Under the treaty, Germany lost around 13 percent of its home territory and all its overseas possessions, while German annexation of other states was prohibited, reparations were imposed, and limits were placed on the size and capability of the country's armed forces.The German Empire was dissolved in the German Revolution of 1918–1919, and a democratic government, later known as the Weimar Republic, was created
 
 20
-00:02:56,384 --> 00:03:19,880
-Xerox granted Apple engineers three days of access to the PARC facilities in return for the option to buy 100,000 shares (5.6 million split-adjusted shares as of March 30, 2019) of Apple at the pre-IPO price of $10 a share.Jobs was immediately convinced that all future computers would use a graphical user interface (GUI), and development of a GUI began for the Apple Lisa
+00:03:12,880 --> 00:03:19,864
+The interwar period saw strife between supporters of the new republic and hardline opponents on both the right and left
 
 21
-00:03:19,880 --> 00:03:25,088
-In 1982, however, he was pushed from the Lisa team due to infighting
+00:03:19,864 --> 00:03:34,192
+Italy, as an Entente ally, had made some post-war territorial gains; however, Italian nationalists were angered that the promises made by the United Kingdom and France to secure Italian entrance into the war were not fulfilled in the peace settlement
 
 22
-00:03:25,088 --> 00:03:34,736
-Jobs then took over Wozniak's and Raskin's low-cost-computer project, the Macintosh, and redefined it as a graphical system cheaper and faster than Lisa
+00:03:34,192 --> 00:04:07,672
+From 1922 to 1925, the Fascist movement led by Benito Mussolini seized power in Italy with a nationalist, totalitarian, and class collaborationist agenda that abolished representative democracy, repressed socialist, left-wing and liberal forces, and pursued an aggressive expansionist foreign policy aimed at making Italy a world power, promising the creation of a "New Roman Empire".
+
+Adolf Hitler, after an unsuccessful attempt to overthrow the German government in 1923, eventually became the Chancellor of Germany in 1933
 
 23
-00:03:34,736 --> 00:04:11,216
-In 1983, Lisa became the first personal computer sold to the public with a GUI, but was a commercial failure due to its high price and limited software titles, so in 1985 it would be repurposed as the high end Macintosh and discontinued in its second year.On December 12, 1980, Apple (ticker symbol "AAPL") went public selling 4.6 million shares at $22 per share ($.39 per share when adjusting for stock splits as of March 30, 2019), generating over $100 million, which was more capital than any IPO since Ford Motor Company in 1956
+00:04:07,672 --> 00:04:16,072
+He abolished democracy, espousing a radical, racially motivated revision of the world order, and soon began a massive rearmament campaign
 
 24
-00:04:11,216 --> 00:04:17,480
-By the end of the day, the stock rose to $29 per share and 300 millionaires were created
+00:04:16,072 --> 00:04:24,136
+Meanwhile, France, to secure its alliance, allowed Italy a free hand in Ethiopia, which Italy desired as a colonial possession
 
 25
-00:04:17,480 --> 00:04:23,672
-Apple's market cap was $1.778 billion at the end of its first day of trading.
+00:04:24,136 --> 00:04:53,176
+The situation was aggravated in early 1935 when the Territory of the Saar Basin was legally reunited with Germany and Hitler repudiated the Treaty of Versailles, accelerated his rearmament programme, and introduced conscription.The United Kingdom, France and Italy formed the Stresa Front in April 1935 in order to contain Germany, a key step towards military globalisation; however, that June, the United Kingdom made an independent naval agreement with Germany, easing prior restrictions
 

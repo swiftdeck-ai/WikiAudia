@@ -1,0 +1,100 @@
+1
+00:00:00,000 --> 00:00:01,000
+Apple Inc.
+
+2
+00:00:01,000 --> 00:00:03,000
+History
+
+3
+00:00:03,000 --> 00:00:05,000
+1976–1984: Founding and incorporation
+
+4
+00:00:05,000 --> 00:00:14,240
+Apple Computer Company was founded on April 1, 1976, by Steve Jobs, Steve Wozniak, and Ronald Wayne as a business partnership
+
+5
+00:00:14,240 --> 00:00:23,624
+The company's first product was the Apple I, a computer designed and hand-built entirely by Wozniak, and first shown to the public at the Homebrew Computer Club
+
+6
+00:00:23,624 --> 00:00:33,824
+Apple I was sold as a motherboard (with CPU, RAM, and basic textual-video chips)—a base kit concept which would now not be marketed as a complete personal computer
+
+7
+00:00:33,824 --> 00:00:47,192
+The Apple I went on sale in July 1976 and was market-priced at $666.66 ($2,995 in 2019 dollars, adjusted for inflation)
+
+8
+00:00:47,192 --> 00:00:57,680
+Wozniak later said he had no idea about the relation between the number and the mark of the beast, and that he came up with the price because he liked "repeating digits".Apple Computer, Inc
+
+9
+00:00:57,680 --> 00:01:10,040
+was incorporated on January 3, 1977, without Wayne, who had left and sold his share of the company back to Jobs and Wozniak for $800 only twelve days after having co-founded Apple
+
+10
+00:01:10,040 --> 00:01:18,704
+Multimillionaire Mike Markkula provided essential business expertise and funding of $250,000 during the incorporation of Apple
+
+11
+00:01:18,704 --> 00:01:25,184
+During the first five years of operations, revenues grew exponentially, doubling about every four months
+
+12
+00:01:25,184 --> 00:01:46,568
+Between September 1977 and September 1980, yearly sales grew from $775,000 to $118 million, an average annual growth rate of 533%.The Apple II, also invented by Wozniak, was introduced on April 16, 1977, at the first West Coast Computer Faire
+
+13
+00:01:46,568 --> 00:01:55,016
+It differs from its major rivals, the TRS-80 and Commodore PET, because of its character cell-based color graphics and open architecture
+
+14
+00:01:55,016 --> 00:02:07,304
+While early Apple II models use ordinary cassette tapes as storage devices, they were superseded by the introduction of a ​5 1⁄4-inch floppy disk drive and interface called the Disk II in 1978
+
+15
+00:02:07,304 --> 00:02:17,624
+The Apple II was chosen to be the desktop platform for the first "killer application" of the business world: VisiCalc, a spreadsheet program released in 1979
+
+16
+00:02:17,624 --> 00:02:26,192
+VisiCalc created a business market for the Apple II and gave home users an additional reason to buy an Apple II: compatibility with the office
+
+17
+00:02:26,192 --> 00:02:36,848
+Before VisiCalc, Apple had been a distant third place competitor to Commodore and Tandy.By the end of the 1970s, Apple had a staff of computer designers and a production line
+
+18
+00:02:36,848 --> 00:02:44,696
+The company introduced the Apple III in May 1980 in an attempt to compete with IBM in the business and corporate computing market
+
+19
+00:02:44,696 --> 00:02:56,384
+Jobs and several Apple employees, including human–computer interface expert Jef Raskin, visited Xerox PARC in December 1979 to see a demonstration of the Xerox Alto
+
+20
+00:02:56,384 --> 00:03:19,880
+Xerox granted Apple engineers three days of access to the PARC facilities in return for the option to buy 100,000 shares (5.6 million split-adjusted shares as of March 30, 2019) of Apple at the pre-IPO price of $10 a share.Jobs was immediately convinced that all future computers would use a graphical user interface (GUI), and development of a GUI began for the Apple Lisa
+
+21
+00:03:19,880 --> 00:03:25,088
+In 1982, however, he was pushed from the Lisa team due to infighting
+
+22
+00:03:25,088 --> 00:03:34,736
+Jobs then took over Wozniak's and Raskin's low-cost-computer project, the Macintosh, and redefined it as a graphical system cheaper and faster than Lisa
+
+23
+00:03:34,736 --> 00:04:11,216
+In 1983, Lisa became the first personal computer sold to the public with a GUI, but was a commercial failure due to its high price and limited software titles, so in 1985 it would be repurposed as the high end Macintosh and discontinued in its second year.On December 12, 1980, Apple (ticker symbol "AAPL") went public selling 4.6 million shares at $22 per share ($.39 per share when adjusting for stock splits as of March 30, 2019), generating over $100 million, which was more capital than any IPO since Ford Motor Company in 1956
+
+24
+00:04:11,216 --> 00:04:17,480
+By the end of the day, the stock rose to $29 per share and 300 millionaires were created
+
+25
+00:04:17,480 --> 00:04:23,672
+Apple's market cap was $1.778 billion at the end of its first day of trading.
+

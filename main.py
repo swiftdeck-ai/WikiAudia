@@ -10,11 +10,19 @@ import moviepy
 from pydub import AudioSegment
 import datetime
 import shutil
+import re
+import nltk.tokenize
+import cv2
 
-wiki_wiki = wikipediaapi.Wikipedia(
-    language='en', extract_format=wikipediaapi.ExtractFormat.WIKI)
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.getcwd() + \
-    "/credentials.json"
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.getcwd() + "/credentials.json"
+
+def torgbformat(filepath):
+    gray = cv2.imread(filepath)
+    try:
+        gray = cv2.cvtColor(gray,cv2.COLOR_GRAY2RGB)
+    except:
+        pass
+    cv2.imwrite(filepath,gray)
 
 def is_grey_scale(img_path):
     img = Image.open(img_path).convert('RGB')
@@ -29,22 +37,67 @@ def toFileName(text):
     textString = ''.join(text.title().split())
     return ''.join(filter(str.isalpha, textString))
 
+def splitintosentences(text):
+    regexsplitlist = re.split("([^0-9$][.]|[.][^0-9])",text)
+    for chunk in range(len(regexsplitlist)):
+        if len(regexsplitlist[chunk]) == 2:
+            if regexsplitlist[chunk][1] == ".":
+                try:
+                    regexsplitlist[chunk-1] += regexsplitlist[chunk][0]
+                except:
+                    pass
+            elif regexsplitlist[chunk][0] == ".":
+                try:
+                    regexsplitlist[chunk+1] = regexsplitlist[chunk][1] + regexsplitlist[chunk+1]
+                except:
+                    pass
+
+    for chunkWord in regexsplitlist:
+        if re.search(r"([^0-9][.]|[.][^0-9]|[^0-9][.][^0-9])",chunkWord) != None:
+            regexsplitlist.pop(regexsplitlist.index(chunkWord))
+
+    return regexsplitlist
 
 def saveImagebySearch(keyword):
-    bidd.download(keyword, limit=1,  output_dir='./downloads/images/addedimages/', adult_filter_off=True, force_replace=False)
-    specimagefile = os.listdir("./downloads/images/addedimages/{}".format(keyword))[0]
-    newimg = Image.open("./downloads/images/addedimages/{}/{}".format(keyword, specimagefile))
+    imageformat = ""
+    numberToDownload = 1
+    while not (imageformat.lower().endswith('jpg') or imageformat.lower().endswith('png') or imageformat.lower().endswith('jpeg')):
+        folder = './downloads/images'
+        for filename in os.listdir(folder):
+            file_path = os.path.join(folder, filename)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+            except Exception as e:
+                print('Failed to delete')
+        bidd.download(keyword, limit=numberToDownload,  output_dir='./downloads/images/addedimages/', adult_filter_off=True, force_replace=False)
+        specimagefile = os.listdir("./downloads/images/addedimages/{}".format(keyword))[numberToDownload-1]
+        imageformat = specimagefile
+        numberToDownload += 1
+        
+    newimg = Image.open("./downloads/images/addedimages/{}/{}".format(keyword, imageformat))
     imgwidth, imgheight = newimg.size
     newwidth = imgwidth*1080//imgheight
     if newwidth > 1920:
         newwidth = 1920
     newimg = newimg.resize((newwidth,1080))
-    if is_grey_scale("./downloads/images/addedimages/{}/{}".format(keyword, specimagefile)):
-        newimg = newimg.convert('RGB')
-    
-    newimg.save("./downloads/images/addedimages/{}/{}".format(keyword, specimagefile))
 
-    return "./downloads/images/addedimages/{}/{}".format(keyword, specimagefile)
+    folder = './downloads/images'
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete')
+
+    newimg.save("./downloads/images/{}".format(specimagefile))
+    torgbformat("./downloads/images/{}".format(specimagefile))
+    return "./downloads/images/{}".format(specimagefile)
 
 
 
@@ -70,10 +123,13 @@ def wikitoDict(specwiki, wikiRenderList):
     wikiDict = {}
     for sect in specwiki.sections:
         wikiDict[sect.title] = {}
+        if sect.title in ['See also','Notes','References','External links']:
+            break
         wikiRenderList.append({"title":sect.title})
         if sect.text.strip() != "":
-            wikiDict[sect.title]["text"] = sect.text.split(". ")
-            for sentRender in sect.text.split(". "):
+            splittext = nltk.tokenize.sent_tokenize(sect.text)
+            wikiDict[sect.title]["text"] = splittext
+            for sentRender in splittext:
                 wikiRenderList.append({"content":sentRender})
 
         if len(sect.sections) != 0:
@@ -89,14 +145,14 @@ def formatdatetimetosub(dt):
     subformat = subformat[:-3]
   return subformat
 
-def createVidSnippet(sentences, videofilename):
-    runningsound = AudioSegment.silent(duration=1000)
+def createVidSnippet(sentences, videofilename, articleTitle, subfile):
+    runningsound = AudioSegment.silent(duration=0000)
     # intro_silence.export("./downloads/audio/runningaudio.mp3", format='mp3')
     # runningsound = AudioSegment.from_mp3("./downloads/audio/runningaudio.mp3")
-    videoClipCreated = VideoFileClip(videofilename)
-    clips = [videoClipCreated]
-    ms = 1000.0
-    runningsubstring = "1\n00:00:00,000 --> 00:00:01,000\nApple Inc.\n\n"
+    clips = []
+    ms = 0.0
+    # runningsubstring = "1\n00:00:00,000 --> 00:00:01,000\n{}\n\n".format(articleTitle)
+    runningsubstring = ""
 
     i = 1
     for sentence in sentences:
@@ -121,9 +177,11 @@ def createVidSnippet(sentences, videofilename):
             audiofilename = synthesizeText(sentence['content'])
             lengthofaudiofile = float(MP3(audiofilename).info.length)
             deltatime = lengthofaudiofile*1000
+            # deltatime = 2000
             text = sentence['content']
             imageClipCreated = ImageClip(imagefilename).set_position(('center', 0)).set_duration(lengthofaudiofile)
             sound = AudioSegment.from_mp3(audiofilename)
+            # sound = AudioSegment.silent(duration=2000)
             runningsound = runningsound + sound
             
 
@@ -142,41 +200,47 @@ def createVidSnippet(sentences, videofilename):
         runningsubstring += (str(i) + "\n" + "{} --> {}".format(subfilestart, subfileend) + "\n" + text + "\n\n")
         ms += deltatime
 
-    with open("video_subtitles.srt",'w') as srtfile:
+    with open(subfile,'w') as srtfile:
         srtfile.write(runningsubstring)
     runningsound.export("./downloads/audio/runningaudio.mp3", format="mp3")
     finalaudioClipCreated = AudioFileClip("./downloads/audio/runningaudio.mp3")
     concat_clip = concatenate_videoclips(clips, method="compose").set_audio(finalaudioClipCreated)
     concat_clip.write_videofile(videofilename, fps=10)
-    folder = './downloads/images/addedimages'
-    for filename in os.listdir(folder):
-        file_path = os.path.join(folder, filename)
-        try:
-            if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.unlink(file_path)
-            elif os.path.isdir(file_path):
-                shutil.rmtree(file_path)
-        except Exception as e:
-            print('Failed to delete')
 
+def create_videos(wikipediatitle):
 
+    wiki_wiki = wikipediaapi.Wikipedia(language='en', extract_format=wikipediaapi.ExtractFormat.WIKI)
+
+    p_wiki = wiki_wiki.page(wikipediatitle)
+
+    full_orderedRenderList = [{'title':wikipediatitle}]
+    full_returnedDict = wikitoDict(p_wiki, full_orderedRenderList)
+    createVidSnippet(
+        full_orderedRenderList, 
+        "fullvideo.mp4",
+        wikipediatitle,
+        "fullvideosubs.srt"
+    ) 
+
+    summary_orderedRenderList = [
+        {'title':wikipediatitle},
+        {"title":"Summary"},
+    ]
+    for summarySent in nltk.tokenize.sent_tokenize(p_wiki.summary):
+        summary_orderedRenderList.append({"content":summarySent})
+    createVidSnippet(
+        summary_orderedRenderList, 
+        "summaryvideo.mp4",
+        wikipediatitle,
+        "summaryvideosubs.srt"
+        ) 
 
 if __name__ == "__main__":
-    img = ['Pencils.jpg']
-
-    clips = [ImageClip("./downloads/images/"+m).set_position(('center', 0)).resize(height=1080).set_duration(1)
-        for m in img]
-
-    concat_clip = concatenate_videoclips(clips, method="compose")
-    concat_clip.write_videofile("video_with_python_test.mp4", fps=10)
-    p_wiki = wiki_wiki.page("World War II")
-    orderedRenderList = [
-        # {"title":"Summary"},
-    ]
-    # for summarySent in p_wiki.summary.split(". "):
-    #     orderedRenderList.append({"content":summarySent})
-    returnedDict = wikitoDict(p_wiki, orderedRenderList)
-    createVidSnippet(
-        orderedRenderList[:24], 
-        "video_with_python_test.mp4",
-        )    
+    create_videos("Hackathon")
+    # intro_dir = "./IntroPics/"
+    # clips = []
+    # for clip in [("WikiAudiaLogo1.png",1),("WikiAudiaLogo2.png",0.15),("WikiAudiaLogo3.png",3.85)]:
+    #     clips.append(ImageClip(intro_dir+clip[0]).set_position(('center', 0)).set_duration(clip[1]))
+    # finalaudioClipCreated = AudioFileClip("./vista.mp3")
+    # concat_clip = concatenate_videoclips(clips, method="compose").set_audio(finalaudioClipCreated)
+    # concat_clip.write_videofile("introvideo.mp4", fps=10)

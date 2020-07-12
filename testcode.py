@@ -140,4 +140,4 @@
 
 import os
 
-os.system("python ytuploadtesting.py --file=\"summaryvideo.mp4\" --title=\"Test Video\" --description=\"Test Description VK\" --privacyStatus=\"private\"")
+os.system("python YouTube.py --file=\"summaryvideo.mp4\" --title=\"Test Video\" --description=\"Test Description VK\" --privacyStatus=\"private\"")

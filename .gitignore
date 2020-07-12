@@ -7,6 +7,15 @@ credentials.json
 creds.json
 token.pickle
 token.json
+client_secrets.json
+client_secret_sub.json
+ytuploadtesting.py-ouath2.json
+fullvideo.mp4
+fullvideosubs.srt
+summaryvideo.mp4
+summaryvideosubs.srt
+IntroPics
+vista.mp3
 
 # C extensions
 *.so

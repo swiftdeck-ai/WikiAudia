@@ -1,169 +1,47 @@
-from moviepy.editor import *
-import os
-from google.cloud import texttospeech
-import wikipediaapi
-from moviepy.editor import *
+# STANDARD MODULES
+import datetime
+
+# IMAGE, AUDIO, AND VIDEO CREATION MODULES
+from moviepy.editor import ImageClip, AudioFileClip, concatenate_videoclips
 from mutagen.mp3 import MP3
-from PIL import Image
-import bing_image_downloader.downloader as bidd
-from rake_nltk import Rake
+from PIL import Image, ImageDraw, ImageFont
+import textwrap
 import moviepy
 from pydub import AudioSegment
-import datetime
-import shutil
-import re
+
+# APPLICATION PROGRAMMING INTERFACES
+import wikipediaapi
+
+# TEXT MANIPULATION MODULES
 import nltk.tokenize
-import cv2
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.getcwd() + "/credentials.json"
+# LOCAL CLASSES AND FUNCTIONS
+from Thumbnail import create_thumbnails
+from Upload import uploadvideo
+from Keywords import getkeywords
+from Image import saveImagebySearch
+from Narration import synthesizeText
+from Wikipedia import wikitoDict
+from Subtitles import formatdatetimetosub
 
-
-def torgbformat(filepath):
-    gray = cv2.imread(filepath)
-    try:
-        gray = cv2.cvtColor(gray, cv2.COLOR_GRAY2RGB)
-    except:
-        pass
-    cv2.imwrite(filepath, gray)
-
-
-def is_grey_scale(img_path):
-    img = Image.open(img_path).convert('RGB')
-    w, h = img.size
-    for i in range(w):
-        for j in range(h):
-            r, g, b = img.getpixel((i, j))
-            if r != g != b: return False
-    return True
+# WEB AND COMPUTER AUTOMATION MODULES
+from selenium import webdriver
 
 
-def toFileName(text):
-    textString = ''.join(text.title().split())
-    return ''.join(filter(str.isalpha, textString))
 
+def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver):
+    runningsound = AudioSegment.from_mp3("./downloads/audio/vista.mp3") + AudioSegment.silent(4000)
+    introLength = MP3("./downloads/audio/vista.mp3").info.length
+    clips = [ImageClip("./IntroPics/WikiAudiaLogoS.png").set_position(('center', 0)).set_duration(0.9).resize((1920,1080)),
+        ImageClip("./IntroPics/WikiAudiaLogoM.png").set_position(('center', 0)).set_duration(0.15).resize((1920,1080)),
+        ImageClip("./IntroPics/WikiAudiaLogoL.png").set_position(('center', 0)).set_duration(introLength-1.05).resize((1920,1080)),
+        ImageClip("./IntroPics/Copyright.png").set_position(('center', 0)).set_duration(2).resize((1920,1080)),
+        ImageClip("./IntroPics/CaptionsReminder.png").set_position(('center', 0)).set_duration(2).resize((1920,1080))
 
-def splitintosentences(text):
-    regexsplitlist = re.split("([^0-9$][.]|[.][^0-9])", text)
-    for chunk in range(len(regexsplitlist)):
-        if len(regexsplitlist[chunk]) == 2:
-            if regexsplitlist[chunk][1] == ".":
-                try:
-                    regexsplitlist[chunk - 1] += regexsplitlist[chunk][0]
-                except:
-                    pass
-            elif regexsplitlist[chunk][0] == ".":
-                try:
-                    regexsplitlist[chunk + 1] = regexsplitlist[chunk][1] + regexsplitlist[chunk + 1]
-                except:
-                    pass
-
-    for chunkWord in regexsplitlist:
-        if re.search(r"([^0-9][.]|[.][^0-9]|[^0-9][.][^0-9])", chunkWord) != None:
-            regexsplitlist.pop(regexsplitlist.index(chunkWord))
-
-    return regexsplitlist
-
-
-def saveImagebySearch(keyword):
-    imageformat = ""
-    numberToDownload = 1
-    while not (
-            imageformat.lower().endswith('jpg') or imageformat.lower().endswith('png') or imageformat.lower().endswith(
-        'jpeg')):
-        folder = './downloads/images'
-        for filename in os.listdir(folder):
-            file_path = os.path.join(folder, filename)
-            try:
-                if os.path.isfile(file_path) or os.path.islink(file_path):
-                    os.unlink(file_path)
-                elif os.path.isdir(file_path):
-                    shutil.rmtree(file_path)
-            except Exception as e:
-                print('Failed to delete')
-        bidd.download(keyword, limit=numberToDownload, output_dir='./downloads/images/addedimages/',
-                      adult_filter_off=True, force_replace=False)
-        specimagefile = os.listdir("./downloads/images/addedimages/{}".format(keyword))[numberToDownload - 1]
-        imageformat = specimagefile
-        numberToDownload += 1
-
-    newimg = Image.open("./downloads/images/addedimages/{}/{}".format(keyword, imageformat))
-    imgwidth, imgheight = newimg.size
-    newwidth = imgwidth * 1080 // imgheight
-    if newwidth > 1920:
-        newwidth = 1920
-    newimg = newimg.resize((newwidth, 1080))
-
-    folder = './downloads/images'
-    for filename in os.listdir(folder):
-        file_path = os.path.join(folder, filename)
-        try:
-            if os.path.isfile(file_path) or os.path.islink(file_path):
-                os.unlink(file_path)
-            elif os.path.isdir(file_path):
-                shutil.rmtree(file_path)
-        except Exception as e:
-            print('Failed to delete')
-
-    newimg.save("./downloads/images/{}".format(specimagefile))
-    torgbformat("./downloads/images/{}".format(specimagefile))
-    return "./downloads/images/{}".format(specimagefile)
-
-
-def synthesizeText(text):
-    client = texttospeech.TextToSpeechClient()
-    synthesis_input = texttospeech.SynthesisInput(text=text)
-    voice = texttospeech.VoiceSelectionParams(
-        language_code="en-US", ssml_gender=texttospeech.SsmlVoiceGender.MALE, name="en-US-Wavenet-D",
-    )
-    audio_config = texttospeech.AudioConfig(
-        audio_encoding=texttospeech.AudioEncoding.MP3
-    )
-    response = client.synthesize_speech(
-        input=synthesis_input, voice=voice, audio_config=audio_config
-    )
-    # audioFilename = toFileName(text)
-    with open("./downloads/audio/currentaudio.mp3", "wb") as out:
-        out.write(response.audio_content)
-
-    return "./downloads/audio/currentaudio.mp3"
-
-
-def wikitoDict(specwiki, wikiRenderList):
-    wikiDict = {}
-    for sect in specwiki.sections:
-        wikiDict[sect.title] = {}
-        if sect.title in ['See also', 'Notes', 'References', 'External links']:
-            break
-        wikiRenderList.append({"title": sect.title})
-        if sect.text.strip() != "":
-            splittext = nltk.tokenize.sent_tokenize(sect.text)
-            wikiDict[sect.title]["text"] = splittext
-            for sentRender in splittext:
-                wikiRenderList.append({"content": sentRender})
-
-        if len(sect.sections) != 0:
-            wikiDict[sect.title]["sections"] = wikitoDict(sect, wikiRenderList)
-
-    return wikiDict
-
-
-def formatdatetimetosub(dt):
-    subformat = str(dt).split()[1].replace(".", ",")
-    if "," not in subformat:
-        subformat += ",000"
-    else:
-        subformat = subformat[:-3]
-    return subformat
-
-
-def createVidSnippet(sentences, videofilename, articleTitle, subfile):
-    runningsound = AudioSegment.silent(duration=0000)
-    # intro_silence.export("./downloads/audio/runningaudio.mp3", format='mp3')
-    # runningsound = AudioSegment.from_mp3("./downloads/audio/runningaudio.mp3")
-    clips = []
-    ms = 0.0
-    # runningsubstring = "1\n00:00:00,000 --> 00:00:01,000\n{}\n\n".format(articleTitle)
+    ]
+    ms = (introLength+4)*1000
     runningsubstring = ""
+    descriptionString = "Video Outline:\n\n(00:00:00) - Wikiaudia Channel Intro\n"
 
     i = 1
     for sentence in sentences:
@@ -172,50 +50,58 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile):
         subfilestart = formatdatetimetosub(ogdt)
 
         if "content" in list(sentence.keys()):
-            r = Rake()
-            r.extract_keywords_from_text(sentence['content'])
-            rankedphrases = r.get_ranked_phrases()
-            bestword = ""
-            if len(rankedphrases) >= 2:
-                bestword += (rankedphrases[0] + "+" + rankedphrases[1])
-            elif len(rankedphrases) == 1:
-                bestword += rankedphrases[0]
-            elif len(rankedphrases) == 0:
-                bestword = "black"
-
-            imagefilename = saveImagebySearch(bestword)
+            bestword = getkeywords(sentence['content'])
+            print(bestword)
+            imagefilename = saveImagebySearch(bestword, articleTitle, driver)
             audiofilename = synthesizeText(sentence['content'])
             lengthofaudiofile = float(MP3(audiofilename).info.length)
             deltatime = lengthofaudiofile * 1000
             # deltatime = 2000
             text = sentence['content']
-            imageClipCreated = ImageClip(imagefilename).set_position(('center', 0)).set_duration(lengthofaudiofile)
+            imageClipCreated = ImageClip(imagefilename).set_position(('center', 0)).set_duration(lengthofaudiofile).resize((1920,1080))
             sound = AudioSegment.from_mp3(audiofilename)
-            # sound = AudioSegment.silent(duration=2000)
+            # sound = AudioSegment.silent(2000)
             runningsound = runningsound + sound
 
             clips.append(imageClipCreated)
         if "title" in list(sentence.keys()):
-            textClipCreated = TextClip(sentence['title'], font='TimesNewRoman-regular', color='white',
-                                       fontsize=100).set_position('center').set_duration(2)
+            text = sentence['title']
+            imFull = Image.new('RGB',(1920,1080))
+            dFull = ImageDraw.Draw(imFull)
+            customfont = ImageFont.truetype("./Fonts/Alegreya-Bold.ttf", size=100)
+            lines = textwrap.wrap(text, width=20)
+            _, fixedheight = customfont.getsize("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz123456789.")
+            y_text = 540 - len(lines)*fixedheight/2
+            for line in lines:
+                width, height = customfont.getsize(line)
+                dFull.text(((1920 - width) / 2, y_text), line, font=customfont, fill=(255,255,255))
+                y_text += height
+
+            imFull.save("./downloads/images/currentimage.png")
+            textClipCreated = ImageClip("./downloads/images/currentimage.png").set_position(('center', 0)).set_duration(2).resize((1920,1080))
 
             clips.append(textClipCreated)
             sound = AudioSegment.silent(duration=2000)
             runningsound = runningsound + sound
             deltatime = 2000
-            text = sentence['title']
+            desctimestamp = formatdatetimetosub(ogdt)[:-4]
+            descriptionString += "({}) - {}\n".format(desctimestamp, text)
 
         ngdt = ogdt + datetime.timedelta(milliseconds=deltatime)
         subfileend = formatdatetimetosub(ngdt)
-        runningsubstring += (str(i) + "\n" + "{} --> {}".format(subfilestart, subfileend) + "\n" + text + "\n\n")
+        runningsubstring += (str(i) + "\n" + "{} --> {}".format(subfilestart, subfileend) + "\n" + " ".join(text.replace("\n"," ").replace("\t"," ").split()) + "\n\n")
         ms += deltatime
+
+    clips.append(ImageClip("./IntroPics/Disclaimer.png").set_position(('center', 0)).set_duration(2).resize((1920,1080)))
+    runningsound = runningsound + AudioSegment.silent(duration=2000)
 
     with open(subfile, 'w') as srtfile:
         srtfile.write(runningsubstring)
     runningsound.export("./downloads/audio/runningaudio.mp3", format="mp3")
     finalaudioClipCreated = AudioFileClip("./downloads/audio/runningaudio.mp3")
-    concat_clip = concatenate_videoclips(clips, method="compose").set_audio(finalaudioClipCreated)
+    concat_clip = concatenate_videoclips(clips, method="compose").set_audio(finalaudioClipCreated).resize((1920,1080))
     concat_clip.write_videofile(videofilename, fps=10)
+    return descriptionString
 
 
 def create_videos(wikipediatitle):
@@ -223,13 +109,16 @@ def create_videos(wikipediatitle):
 
     p_wiki = wiki_wiki.page(wikipediatitle)
 
+    driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
+
     full_orderedRenderList = [{'title': wikipediatitle}]
-    full_returnedDict = wikitoDict(p_wiki, full_orderedRenderList)
-    createVidSnippet(
+    _ = wikitoDict(p_wiki, full_orderedRenderList)
+    fullVideoDescString = createVidSnippet(
         full_orderedRenderList,
-        "fullvideo.mp4",
+        "./OutputFiles/fullvideo.mp4",
         wikipediatitle,
-        "fullvideosubs.srt"
+        "./OutputFiles/fullvideosubs.srt",
+        driver
     )
 
     summary_orderedRenderList = [
@@ -237,12 +126,38 @@ def create_videos(wikipediatitle):
         {"title": "Summary"},
     ]
 
-    for summarySent in nltk.tokenize.sent_tokenize(p_wiki.summary):
+    articleSummary = p_wiki.summary
+
+    for summarySent in nltk.tokenize.sent_tokenize(articleSummary):
         summary_orderedRenderList.append({"content": summarySent})
 
-    createVidSnippet(
+    summaryDescString = createVidSnippet(
         summary_orderedRenderList,
-        "summaryvideo.mp4",
+        "./OutputFiles/summaryvideo.mp4",
         wikipediatitle,
-        "summaryvideosubs.srt"
+        "./OutputFiles/summaryvideosubs.srt",
+        driver
     )
+
+    driver.quit()
+
+
+    descriptionSummary = "\n\n\n\nSource: https://en.wikipedia.org/wiki/{}\n\n\nSummary:\n\n".format("_".join(wikipediatitle.split()))+articleSummary
+
+    descriptionSocials = "\n\n\n\n\
+Follow our Socials!\n \
+    \nWikiaudia Instagram: https://instagram.com/wikiaudia\n \
+    \nVivek's Instagram (Co-Creator): https://instagram.com/v1v3k.k \
+    \nVivek's LinkedIn (Co-Creator): https://www.linkedin.com/in/vivekkogilathota1225 \
+    \nVivek's Twitter (Co-Creator): https://twitter.com/v1v3krk\n\
+    \nSamrat's Instagram (Co-Creator): https://instagram.com/samrat.sahoo_ \
+    \nSamrat's LinkedIn (Co-Creator): https://www.linkedin.com/in/samratsahoo \
+    \nSamrat's Twitter (Co-Creator): https://twitter.com/samratsahoo2013"
+
+    fullVideoDescString += descriptionSummary
+    fullVideoDescString += descriptionSocials
+    summaryDescString += descriptionSocials
+
+    create_thumbnails(wikipediatitle)
+    uploadvideo("./OutputFiles/fullvideo.mp4","./OutputFiles/fullvideosubs.srt",wikipediatitle + ": Full Video",fullVideoDescString,"./OutputFiles/fullvideothumbnail.png")
+    uploadvideo("./OutputFiles/summaryvideo.mp4","./OutputFiles/summaryvideosubs.srt",wikipediatitle + ": Summary",summaryDescString,"./OutputFiles/summaryvideothumbnail.png")

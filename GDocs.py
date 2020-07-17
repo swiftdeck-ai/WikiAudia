@@ -151,5 +151,5 @@ def getText(id):
     return read_strucutural_elements(doc_content)
 
 
-if __name__ == '__main__':
-    print(getText(LOG_DOC_ID).split('\n'))
+# if __name__ == '__main__':
+#     print(getText(LOG_DOC_ID).split('\n'))

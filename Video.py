@@ -28,18 +28,19 @@ from Subtitles import formatdatetimetosub
 from selenium import webdriver
 
 
-
 def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver):
     runningsound = AudioSegment.from_mp3("./downloads/audio/vista.mp3") + AudioSegment.silent(4000)
     introLength = MP3("./downloads/audio/vista.mp3").info.length
-    clips = [ImageClip("./IntroPics/WikiAudiaLogoS.png").set_position(('center', 0)).set_duration(0.9).resize((1920,1080)),
-        ImageClip("./IntroPics/WikiAudiaLogoM.png").set_position(('center', 0)).set_duration(0.15).resize((1920,1080)),
-        ImageClip("./IntroPics/WikiAudiaLogoL.png").set_position(('center', 0)).set_duration(introLength-1.05).resize((1920,1080)),
-        ImageClip("./IntroPics/Copyright.png").set_position(('center', 0)).set_duration(2).resize((1920,1080)),
-        ImageClip("./IntroPics/CaptionsReminder.png").set_position(('center', 0)).set_duration(2).resize((1920,1080))
+    clips = [
+        ImageClip("./IntroPics/WikiAudiaLogoS.png").set_position(('center', 0)).set_duration(0.9).resize((1920, 1080)),
+        ImageClip("./IntroPics/WikiAudiaLogoM.png").set_position(('center', 0)).set_duration(0.15).resize((1920, 1080)),
+        ImageClip("./IntroPics/WikiAudiaLogoL.png").set_position(('center', 0)).set_duration(introLength - 1.05).resize(
+            (1920, 1080)),
+        ImageClip("./IntroPics/Copyright.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080)),
+        ImageClip("./IntroPics/CaptionsReminder.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080))
 
-    ]
-    ms = (introLength+4)*1000
+        ]
+    ms = (introLength + 4) * 1000
     runningsubstring = ""
     descriptionString = "Video Outline:\n\n(00:00:00) - Wikiaudia Channel Intro\n"
 
@@ -58,7 +59,8 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver):
             deltatime = lengthofaudiofile * 1000
             # deltatime = 2000
             text = sentence['content']
-            imageClipCreated = ImageClip(imagefilename).set_position(('center', 0)).set_duration(lengthofaudiofile).resize((1920,1080))
+            imageClipCreated = ImageClip(imagefilename).set_position(('center', 0)).set_duration(
+                lengthofaudiofile).resize((1920, 1080))
             sound = AudioSegment.from_mp3(audiofilename)
             # sound = AudioSegment.silent(2000)
             runningsound = runningsound + sound
@@ -66,19 +68,20 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver):
             clips.append(imageClipCreated)
         if "title" in list(sentence.keys()):
             text = sentence['title']
-            imFull = Image.new('RGB',(1920,1080))
+            imFull = Image.new('RGB', (1920, 1080))
             dFull = ImageDraw.Draw(imFull)
             customfont = ImageFont.truetype("./Fonts/Alegreya-Bold.ttf", size=100)
             lines = textwrap.wrap(text, width=20)
             _, fixedheight = customfont.getsize("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz123456789.")
-            y_text = 540 - len(lines)*fixedheight/2
+            y_text = 540 - len(lines) * fixedheight / 2
             for line in lines:
                 width, height = customfont.getsize(line)
-                dFull.text(((1920 - width) / 2, y_text), line, font=customfont, fill=(255,255,255))
+                dFull.text(((1920 - width) / 2, y_text), line, font=customfont, fill=(255, 255, 255))
                 y_text += height
 
             imFull.save("./downloads/images/currentimage.png")
-            textClipCreated = ImageClip("./downloads/images/currentimage.png").set_position(('center', 0)).set_duration(2).resize((1920,1080))
+            textClipCreated = ImageClip("./downloads/images/currentimage.png").set_position(('center', 0)).set_duration(
+                2).resize((1920, 1080))
 
             clips.append(textClipCreated)
             sound = AudioSegment.silent(duration=2000)
@@ -89,17 +92,19 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver):
 
         ngdt = ogdt + datetime.timedelta(milliseconds=deltatime)
         subfileend = formatdatetimetosub(ngdt)
-        runningsubstring += (str(i) + "\n" + "{} --> {}".format(subfilestart, subfileend) + "\n" + " ".join(text.replace("\n"," ").replace("\t"," ").split()) + "\n\n")
+        runningsubstring += (str(i) + "\n" + "{} --> {}".format(subfilestart, subfileend) + "\n" + " ".join(
+            text.replace("\n", " ").replace("\t", " ").split()) + "\n\n")
         ms += deltatime
 
-    clips.append(ImageClip("./IntroPics/Disclaimer.png").set_position(('center', 0)).set_duration(2).resize((1920,1080)))
+    clips.append(
+        ImageClip("./IntroPics/Disclaimer.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080)))
     runningsound = runningsound + AudioSegment.silent(duration=2000)
 
     with open(subfile, 'w') as srtfile:
         srtfile.write(runningsubstring)
     runningsound.export("./downloads/audio/runningaudio.mp3", format="mp3")
     finalaudioClipCreated = AudioFileClip("./downloads/audio/runningaudio.mp3")
-    concat_clip = concatenate_videoclips(clips, method="compose").set_audio(finalaudioClipCreated).resize((1920,1080))
+    concat_clip = concatenate_videoclips(clips, method="compose").set_audio(finalaudioClipCreated).resize((1920, 1080))
     concat_clip.write_videofile(videofilename, fps=10)
     return descriptionString
 
@@ -141,8 +146,8 @@ def create_videos(wikipediatitle):
 
     driver.quit()
 
-
-    descriptionSummary = "\n\n\n\nSource: https://en.wikipedia.org/wiki/{}\n\n\nSummary:\n\n".format("_".join(wikipediatitle.split()))+articleSummary
+    descriptionSummary = "\n\n\n\nSource: https://en.wikipedia.org/wiki/{}\n\n\nSummary:\n\n".format(
+        "_".join(wikipediatitle.split())) + articleSummary
 
     descriptionSocials = "\n\n\n\n\
 Follow our Socials!\n \
@@ -159,5 +164,7 @@ Follow our Socials!\n \
     summaryDescString += descriptionSocials
 
     create_thumbnails(wikipediatitle)
-    uploadvideo("./OutputFiles/fullvideo.mp4","./OutputFiles/fullvideosubs.srt",wikipediatitle + ": Full Video",fullVideoDescString,"./OutputFiles/fullvideothumbnail.png")
-    uploadvideo("./OutputFiles/summaryvideo.mp4","./OutputFiles/summaryvideosubs.srt",wikipediatitle + ": Summary",summaryDescString,"./OutputFiles/summaryvideothumbnail.png")
+    uploadvideo("./OutputFiles/fullvideo.mp4", "./OutputFiles/fullvideosubs.srt", wikipediatitle + ": Full Video",
+                fullVideoDescString, "./OutputFiles/fullvideothumbnail.png")
+    uploadvideo("./OutputFiles/summaryvideo.mp4", "./OutputFiles/summaryvideosubs.srt", wikipediatitle + ": Summary",
+                summaryDescString, "./OutputFiles/summaryvideothumbnail.png")

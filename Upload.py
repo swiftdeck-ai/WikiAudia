@@ -25,7 +25,7 @@ def uploadvideo(video,subs,title,description,thumbnail):
     while i<50:
         videoTitle.send_keys(Keys.BACKSPACE)
         i += 1
-    videoTitle.send_keys(title)
+    videoTitle.send_keys(title.title())
     videoDescription = driver.find_element_by_xpath("/html/body/ytcp-uploads-dialog/paper-dialog/div/ytcp-animatable[1]/ytcp-uploads-details/div/ytcp-uploads-basics/ytcp-mention-textbox[2]/ytcp-form-input-container/div[1]/div[2]/ytcp-mention-input/div")
     videoDescription.send_keys(description)
     videoThumbnail = driver.find_element_by_xpath("/html/body/ytcp-uploads-dialog/paper-dialog/div/ytcp-animatable[1]/ytcp-uploads-details/div/ytcp-uploads-basics/ytcp-thumbnails-compact-editor/div[3]/ytcp-thumbnails-compact-editor-uploader/input")

@@ -26,11 +26,12 @@ def create_thumbnails(text):
     imSummary.save("./OutputFiles/summaryvideothumbnail.png")
 
 def create_thumbnails_mod(text):
+    text = text.title()
     filenameFull = "./TNPics/WikiaudiaTNFull.png"
     imFull = Image.open(filenameFull)
     dFull = ImageDraw.Draw(imFull)
     customfont = ImageFont.truetype("./Fonts/CenturyGothicBold.ttf", size=550)
-    lines = textwrap.wrap(text, width=20)
+    lines = textwrap.wrap(text, width=23)
     y_text = 100
     for line in lines:
         _, height = customfont.getsize(line)

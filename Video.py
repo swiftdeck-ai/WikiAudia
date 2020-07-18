@@ -29,17 +29,29 @@ from selenium import webdriver
 
 
 def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver):
-    runningsound = AudioSegment.from_mp3("./downloads/audio/vista.mp3") + AudioSegment.silent(4000)
-    introLength = MP3("./downloads/audio/vista.mp3").info.length
+    runningsound = AudioSegment.from_mp3("./downloads/audio/twinkle.mp3") + AudioSegment.silent(4000)
+    introLength = MP3("./downloads/audio/twinkle.mp3").info.length
     clips = [
-        ImageClip("./IntroPics/WikiAudiaLogoS.png").set_position(('center', 0)).set_duration(0.9).resize((1920, 1080)),
-        ImageClip("./IntroPics/WikiAudiaLogoM.png").set_position(('center', 0)).set_duration(0.15).resize((1920, 1080)),
-        ImageClip("./IntroPics/WikiAudiaLogoL.png").set_position(('center', 0)).set_duration(introLength - 1.05).resize(
-            (1920, 1080)),
-        ImageClip("./IntroPics/Copyright.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080)),
-        ImageClip("./IntroPics/CaptionsReminder.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080))
-
+        # ImageClip("./IntroPics/WikiAudiaLogoS.png").set_position(('center', 0)).set_duration(0.9).resize((1920, 1080)),
+        # ImageClip("./IntroPics/WikiAudiaLogoM.png").set_position(('center', 0)).set_duration(0.15).resize((1920, 1080)),
+        # ImageClip("./IntroPics/WikiAudiaLogoL.png").set_position(('center', 0)).set_duration(introLength - 1.05).resize(
+        #     (1920, 1080)),
+        # ImageClip("./IntroPics/Copyright.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080)),
+        # ImageClip("./IntroPics/CaptionsReminder.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080))
+            ImageClip("./IntroPics/IntroAnimationZero.png").set_duration(0.590),
+            ImageClip("./IntroPics/IntroAnimationOne.png").set_duration(1.831),
+            ImageClip("./IntroPics/IntroAnimationTwo.png").set_duration(1.581),
+            ImageClip("./IntroPics/IntroAnimationThree.png").set_duration(1.197),
+            ImageClip("./IntroPics/IntroAnimationFour.png").set_duration(introLength - 5.256)
         ]
+
+    # vista = AudioFileClip("./downloads/audio/twinkle.mp3")
+    # introLength = MP3("./downloads/audio/twinkle.mp3").info.length
+    # zero = ImageClip("./IntroPics/IntroAnimationZero.png").set_duration(0.590)
+    # one = ImageClip("./IntroPics/IntroAnimationOne.png").set_duration(1.831)
+    # two = ImageClip("./IntroPics/IntroAnimationTwo.png").set_duration(1.581)
+    # three = ImageClip("./IntroPics/IntroAnimationThree.png").set_duration(1.197)
+    # four = ImageClip("./IntroPics/IntroAnimationFour.png").set_duration(introLength - 5.256)
     ms = (introLength + 4) * 1000
     runningsubstring = ""
     descriptionString = "Video Outline:\n\n(00:00:00) - Wikiaudia Channel Intro\n"

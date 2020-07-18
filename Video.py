@@ -32,8 +32,8 @@ from webdriver_manager.chrome import ChromeDriverManager
 from indicnlp.tokenize.sentence_tokenize import sentence_split
 
 def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver, language='en'):
-    runningsound = AudioSegment.from_mp3("./downloads/audio/twinkle.mp3") + AudioSegment.silent(4000)
-    introLength = MP3("./downloads/audio/twinkle.mp3").info.length
+    runningsound = AudioSegment.from_mp3("./Downloads/audio/twinkle.mp3") + AudioSegment.silent(4000)
+    introLength = MP3("./Downloads/audio/twinkle.mp3").info.length
     clips = [
         # ImageClip("./IntroPics/WikiAudiaLogoS.png").set_position(('center', 0)).set_duration(0.9).resize((1920, 1080)),
         # ImageClip("./IntroPics/WikiAudiaLogoM.png").set_position(('center', 0)).set_duration(0.15).resize((1920, 1080)),

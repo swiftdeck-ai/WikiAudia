@@ -5,7 +5,7 @@ import os
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-from apiclient import discovery
+from googleapiclient import discovery
 from httplib2 import Http
 from oauth2client import client
 from oauth2client import file

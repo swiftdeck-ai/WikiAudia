@@ -1,4 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
+import textwrap
 
 def create_thumbnails(text):
 
@@ -23,3 +24,29 @@ def create_thumbnails(text):
     dSummary = ImageDraw.Draw(imSummary)
     dSummary.text(xy, text, font=customfont, fill=BLACK)
     imSummary.save("./OutputFiles/summaryvideothumbnail.png")
+
+def create_thumbnails_mod(text):
+    filenameFull = "./TNPics/WikiaudiaTNFull.png"
+    imFull = Image.open(filenameFull)
+    dFull = ImageDraw.Draw(imFull)
+    customfont = ImageFont.truetype("./Fonts/CenturyGothicBold.ttf", size=550)
+    lines = textwrap.wrap(text, width=20)
+    y_text = 100
+    for line in lines:
+        _, height = customfont.getsize(line)
+        dFull.text((300, y_text), line, font=customfont, fill=(0,0,0))
+        y_text += height
+    imFull.save("./OutputFiles/fullvideothumbnail.png")
+
+    filenameFull = "./TNPics/WikiaudiaTNSumm.png"
+    imFull = Image.open(filenameFull)
+    dFull = ImageDraw.Draw(imFull)
+    customfont = ImageFont.truetype("./Fonts/CenturyGothicBold.ttf", size=550)
+    lines = textwrap.wrap(text, width=20)
+    y_text = 100
+    for line in lines:
+        _, height = customfont.getsize(line)
+        dFull.text((300, y_text), line, font=customfont, fill=(0,0,0))
+        y_text += height
+    imFull.save("./OutputFiles/summaryvideothumbnail.png")
+

@@ -35,7 +35,7 @@ def main():
 if __name__ == "__main__":
     articles = getText(ADD_DOC_ID).strip().split('\n')
     for article in articles:
-        if len(articles) == 0 or article == '':
+        if len(articles) == 0 or article.strip() == '':
             break
         main()
         articles = getText(ADD_DOC_ID).strip().split('\n')

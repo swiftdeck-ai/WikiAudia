@@ -5,19 +5,16 @@ from nltk.tag import tnt
 from nltk.corpus import indian
 
 
-def getkeywords(text):
+def getkeywords(text, title):
     nlp = spacy.load("en_core_web_sm")
     tr = pytextrank.TextRank()
     nlp.add_pipe(tr.PipelineComponent, name="textrank", last=True)
 
     doc = nlp(text)
-    return doc._.phrases[0].chunks[0]
-
-
-import nltk
-from nltk.tag import tnt
-from nltk.corpus import indian
-
+    try:
+        return doc._.phrases[0].chunks[0]
+    except:
+        return title
 
 def hindiModel():
     train_data = indian.tagged_sents('hindi.pos')
@@ -26,7 +23,7 @@ def hindiModel():
     return tnt_pos_tagger
 
 
-def getKeywordsHindi(text):
+def getKeywordsHindi(text, title):
     model = hindiModel()
     pos = (model.tag(nltk.word_tokenize(text)))
     grammar = r"""NP:{<NN.*>}"""
@@ -44,4 +41,7 @@ def getKeywordsHindi(text):
                 current_chunk = []
             else:
                 continue
-    return list(continuous_chunk)[0]
+    try:
+        return list(continuous_chunk)[0]
+    except:
+        return title

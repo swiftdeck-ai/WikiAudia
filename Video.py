@@ -59,10 +59,10 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver, la
 
         if "content" in list(sentence.keys()):
             if language == 'en':
-                bestword = getkeywords(sentence['content'])
+                bestword = getkeywords(sentence['content'], articleTitle)
                 print(bestword)
             elif language == 'hi':
-                bestword = getKeywordsHindi(sentence['content'])
+                bestword = getKeywordsHindi(sentence['content'], articleTitle)
                 print()
             imagefilename = saveImagebySearch(bestword, articleTitle, driver)
 

@@ -2,9 +2,11 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 import os
+from webdriver_manager.chrome import ChromeDriverManager
+
 
 def uploadvideo(video,subs,title,description,thumbnail):
-    driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
+    driver = webdriver.Chrome(ChromeDriverManager.install())
     driver.get("https://studio.youtube.com/channel/UCsLCKPmJXsDh90Eum8eMZXw/videos/upload?d=ud&filter=%5B%5D&sort=%7B%22columnType%22%3A%22date%22%2C%22sortOrder%22%3A%22DESCENDING%22%7D")
     time.sleep(2)
     usernameField = driver.find_element_by_xpath("/html/body/div[1]/div[1]/div[2]/div/div[2]/div/div/div[2]/div/div[1]/div/form/span/section/div/div/div[1]/div/div[1]/div/div[1]/input")

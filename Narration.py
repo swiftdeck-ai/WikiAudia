@@ -15,10 +15,10 @@ def synthesizeText(text):
     response = client.synthesize_speech(
         input=synthesis_input, voice=voice, audio_config=audio_config
     )
-    with open("./downloads/audio/currentaudio.mp3", "wb") as out:
+    with open("./Downloads/audio/currentaudio.mp3", "wb") as out:
         out.write(response.audio_content)
 
-    return "./downloads/audio/currentaudio.mp3"
+    return "./Downloads/audio/currentaudio.mp3"
 
 def synthesizeTextHindi(text):
     client = texttospeech.TextToSpeechClient()
@@ -32,7 +32,7 @@ def synthesizeTextHindi(text):
     response = client.synthesize_speech(
         input=synthesis_input, voice=voice, audio_config=audio_config
     )
-    with open("./downloads/audio/currentaudio.mp3", "wb") as out:
+    with open("./Downloads/audio/currentaudio.mp3", "wb") as out:
         out.write(response.audio_content)
 
-    return "./downloads/audio/currentaudio.mp3"
+    return "./Downloads/audio/currentaudio.mp3"

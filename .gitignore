@@ -23,6 +23,7 @@ vista.mp3
 .Python
 build/
 develop-eggs/
+downloads/
 dist/
 eggs/
 .eggs/

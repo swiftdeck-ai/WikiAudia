@@ -16,7 +16,7 @@ import wikipediaapi
 import nltk.tokenize
 
 # LOCAL CLASSES AND FUNCTIONS
-from Thumbnail import create_thumbnails
+from Thumbnail import create_thumbnails, create_thumbnails_mod
 from Upload import uploadvideo
 from Keywords import getkeywords, getKeywordsHindi
 from Image import saveImagebySearch
@@ -188,7 +188,7 @@ Follow our Socials!\n \
     fullVideoDescString += descriptionSocials
     summaryDescString += descriptionSocials
 
-    create_thumbnails(wikipediatitle)
+    create_thumbnails_mod(wikipediatitle)
     uploadvideo("./OutputFiles/fullvideo.mp4", "./OutputFiles/fullvideosubs.srt", wikipediatitle + ": Full Video",
                 fullVideoDescString, "./OutputFiles/fullvideothumbnail.png")
     uploadvideo("./OutputFiles/summaryvideo.mp4", "./OutputFiles/summaryvideosubs.srt", wikipediatitle + ": Summary",

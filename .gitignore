@@ -24,7 +24,6 @@ vista.mp3
 build/
 develop-eggs/
 dist/
-downloads/
 eggs/
 .eggs/
 lib/

@@ -33,8 +33,6 @@ def main():
 
 
 if __name__ == "__main__":
-
-    # for i in range(2):
     articles = getText(ADD_DOC_ID).strip().split('\n')
     for article in articles:
         try:

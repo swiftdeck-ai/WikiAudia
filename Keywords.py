@@ -44,4 +44,4 @@ def getKeywordsHindi(text):
                 current_chunk = []
             else:
                 continue
-    return list(continuous_chunk)
+    return list(continuous_chunk)[0]

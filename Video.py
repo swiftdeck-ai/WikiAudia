@@ -63,12 +63,15 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver, la
                 print(bestword)
             elif language == 'hi':
                 bestword = getKeywordsHindi(sentence['content'])
+                print()
             imagefilename = saveImagebySearch(bestword, articleTitle, driver)
+
             if language == 'en':
                 audiofilename = synthesizeText(sentence['content'])
             elif language == 'hi':
                 audiofilename = synthesizeTextHindi(sentence['content'])
             lengthofaudiofile = float(MP3(audiofilename).info.length)
+
             deltatime = lengthofaudiofile * 1000
             # deltatime = 2000
             text = sentence['content']

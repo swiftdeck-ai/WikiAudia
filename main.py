@@ -32,6 +32,9 @@ if __name__ == "__main__":
     articles = getText(ADD_DOC_ID).strip().split('\n')
     for article in articles:
         try:
+            if article == '':
+                break
             main()
+            articles = getText(ADD_DOC_ID).strip().split('\n')
         except Exception as e:
             print(e.with_traceback)

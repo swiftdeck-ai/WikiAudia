@@ -82,7 +82,7 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver):
             text = sentence['title']
             imFull = Image.new('RGB', (1920, 1080))
             dFull = ImageDraw.Draw(imFull)
-            customfont = ImageFont.truetype("./Fonts/Alegreya-Bold.ttf", size=100)
+            customfont = ImageFont.truetype("./Fonts/CenturyGothicBold.ttf", size=100)
             lines = textwrap.wrap(text, width=20)
             _, fixedheight = customfont.getsize("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz123456789.")
             y_text = 540 - len(lines) * fixedheight / 2

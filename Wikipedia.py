@@ -1,6 +1,7 @@
 import nltk
+from indicnlp.tokenize.sentence_tokenize import sentence_split
 
-def wikitoDict(specwiki, wikiRenderList):
+def wikitoDict(specwiki, wikiRenderList,language):
     wikiDict = {}
     for sect in specwiki.sections:
         wikiDict[sect.title] = {}
@@ -8,7 +9,10 @@ def wikitoDict(specwiki, wikiRenderList):
             break
         wikiRenderList.append({"title": sect.title})
         if sect.text.strip() != "":
-            splittext = nltk.tokenize.sent_tokenize(sect.text)
+            if language == 'en':
+                splittext = nltk.tokenize.sent_tokenize(sect.text)
+            elif language == 'hi':
+                splittext = sentence_split(sect.text, lang=language)
             wikiDict[sect.title]["text"] = splittext
             for sentRender in splittext:
                 wikiRenderList.append({"content": sentRender})

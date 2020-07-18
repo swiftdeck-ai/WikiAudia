@@ -18,7 +18,7 @@ import nltk.tokenize
 # LOCAL CLASSES AND FUNCTIONS
 from Thumbnail import create_thumbnails
 from Upload import uploadvideo
-from Keywords import getkeywords
+from Keywords import getkeywords, getKeywordsHindi
 from Image import saveImagebySearch
 from Narration import synthesizeText
 from Wikipedia import wikitoDict
@@ -27,8 +27,11 @@ from Subtitles import formatdatetimetosub
 # WEB AND COMPUTER AUTOMATION MODULES
 from selenium import webdriver
 
+# HINDI SUPPORT
+from indicnlp.tokenize.sentence_tokenize import sentence_split
 
-def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver):
+
+def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver, language='en'):
     runningsound = AudioSegment.from_mp3("./downloads/audio/vista.mp3") + AudioSegment.silent(4000)
     introLength = MP3("./downloads/audio/vista.mp3").info.length
     clips = [
@@ -39,7 +42,7 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver):
         ImageClip("./IntroPics/Copyright.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080)),
         ImageClip("./IntroPics/CaptionsReminder.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080))
 
-        ]
+    ]
     ms = (introLength + 4) * 1000
     runningsubstring = ""
     descriptionString = "Video Outline:\n\n(00:00:00) - Wikiaudia Channel Intro\n"
@@ -51,8 +54,11 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver):
         subfilestart = formatdatetimetosub(ogdt)
 
         if "content" in list(sentence.keys()):
-            bestword = getkeywords(sentence['content'])
-            print(bestword)
+            if language == 'en':
+                bestword = getkeywords(sentence['content'])
+                print(bestword)
+            elif language == 'hi':
+                bestword = getKeywordsHindi(sentence['content'])
             imagefilename = saveImagebySearch(bestword, articleTitle, driver)
             audiofilename = synthesizeText(sentence['content'])
             lengthofaudiofile = float(MP3(audiofilename).info.length)
@@ -109,21 +115,22 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver):
     return descriptionString
 
 
-def create_videos(wikipediatitle):
-    wiki_wiki = wikipediaapi.Wikipedia(language='en', extract_format=wikipediaapi.ExtractFormat.WIKI)
+def create_videos(wikipediatitle, language='en'):
+    wiki_wiki = wikipediaapi.Wikipedia(language=language, extract_format=wikipediaapi.ExtractFormat.WIKI)
 
     p_wiki = wiki_wiki.page(wikipediatitle)
 
     driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
 
     full_orderedRenderList = [{'title': wikipediatitle}]
-    _ = wikitoDict(p_wiki, full_orderedRenderList)
+    _ = wikitoDict(p_wiki, full_orderedRenderList, language)
     fullVideoDescString = createVidSnippet(
         full_orderedRenderList,
         "./OutputFiles/fullvideo.mp4",
         wikipediatitle,
         "./OutputFiles/fullvideosubs.srt",
-        driver
+        driver,
+        language
     )
 
     summary_orderedRenderList = [
@@ -132,16 +139,19 @@ def create_videos(wikipediatitle):
     ]
 
     articleSummary = p_wiki.summary
-
-    for summarySent in nltk.tokenize.sent_tokenize(articleSummary):
-        summary_orderedRenderList.append({"content": summarySent})
+    if language == 'en':
+        for summarySent in nltk.tokenize.sent_tokenize(articleSummary):
+            summary_orderedRenderList.append({"content": summarySent})
+    elif language=='hi':
+        sentences = sentence_split(articleSummary, lang='hi')
 
     summaryDescString = createVidSnippet(
         summary_orderedRenderList,
         "./OutputFiles/summaryvideo.mp4",
         wikipediatitle,
         "./OutputFiles/summaryvideosubs.srt",
-        driver
+        driver,
+        language
     )
 
     driver.quit()

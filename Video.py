@@ -35,6 +35,9 @@ from indicnlp.tokenize.sentence_tokenize import sentence_split
 def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver, language='en'):
     runningsound = AudioSegment.from_mp3("./Downloads/audio/twinkle.mp3") + AudioSegment.silent(4000)
     introLength = MP3("./Downloads/audio/twinkle.mp3").info.length
+    copyrightimage = "./IntroPics/Copyright.png" if language == "en" else "./IntroPics/CopyrightHindi.png"
+    captionsimage = "./IntroPics/Captions.png" if language == "en" else "./IntroPics/CaptionsHindi.png"
+    disclaimerimage = "./IntroPics/Disclaimer.png" if language == "en" else "./IntroPics/DisclaimerHindi.png"
     clips = [
         # ImageClip("./IntroPics/WikiAudiaLogoS.png").set_position(('center', 0)).set_duration(0.9).resize((1920, 1080)),
         # ImageClip("./IntroPics/WikiAudiaLogoM.png").set_position(('center', 0)).set_duration(0.15).resize((1920, 1080)),
@@ -45,8 +48,8 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver, la
         ImageClip("./IntroPics/IntroAnimationTwo.png").set_duration(1.581),
         ImageClip("./IntroPics/IntroAnimationThree.png").set_duration(1.197),
         ImageClip("./IntroPics/IntroAnimationFour.png").set_duration(introLength - 5.256),
-        ImageClip("./IntroPics/Copyright.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080)),
-        ImageClip("./IntroPics/Captions.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080))
+        ImageClip(copyrightimage).set_position(('center', 0)).set_duration(2).resize((1920, 1080)),
+        ImageClip(captionsimage).set_position(('center', 0)).set_duration(2).resize((1920, 1080))
     ]
     ms = (introLength + 4) * 1000
     runningsubstring = ""
@@ -87,9 +90,9 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver, la
             text = sentence['title']
             imFull = Image.new('RGB', (1920, 1080))
             dFull = ImageDraw.Draw(imFull)
-            customfont = ImageFont.truetype("./Fonts/CenturyGothicBold.ttf", size=100)
+            customfont = ImageFont.truetype("./Fonts/CenturyGothicBold.ttf", size=100) if language == "en" else ImageFont.truetype("./Fonts/NotoSans-Bold.ttf", size=100)
             lines = textwrap.wrap(text, width=28)
-            _, fixedheight = customfont.getsize("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz123456789.")
+            _, fixedheight = customfont.getsize("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz123456789.") if language == "en" else customfont.getsize("अंतरिक्ष यान से दूर नीचे पृथ्वी शानदार ढंग से जगमगा रही थी.")
             y_text = 540 - len(lines) * fixedheight / 2
             for line in lines:
                 width, height = customfont.getsize(line)
@@ -114,7 +117,7 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver, la
         ms += deltatime
 
     clips.append(
-        ImageClip("./IntroPics/Disclaimer.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080)))
+        ImageClip(disclaimerimage).set_position(('center', 0)).set_duration(2).resize((1920, 1080)))
     runningsound = runningsound + AudioSegment.silent(duration=2000)
 
     with open(subfile, 'w') as srtfile:
@@ -154,7 +157,8 @@ def create_videos(wikipediatitle, language='en'):
         for summarySent in nltk.tokenize.sent_tokenize(articleSummary):
             summary_orderedRenderList.append({"content": summarySent})
     elif language == 'hi':
-        sentences = sentence_split(articleSummary, lang='hi')
+        for summarySent in sentence_split(articleSummary, lang='hi'):
+            summary_orderedRenderList.append({"content": summarySent})
 
     summaryDescString = createVidSnippet(
         summary_orderedRenderList,
@@ -167,7 +171,13 @@ def create_videos(wikipediatitle, language='en'):
 
     driver.quit()
 
-    descriptionSummary = "\n\n\n\nSource: https://en.wikipedia.org/wiki/{}\n\n\nSummary:\n\n".format(
+    descriptionSummary = ""
+    
+    if language == "en":
+        descriptionSummary = "\n\n\n\nSource: https://en.wikipedia.org/wiki/{}\n\n\nSummary:\n\n".format(
+        "_".join(wikipediatitle.split())) + articleSummary
+    else:
+        descriptionSummary = "\n\n\n\nलेख: https://hi.wikipedia.org/wiki/{}\n\n\nसारांश:\n\n".format(
         "_".join(wikipediatitle.split())) + articleSummary
 
     descriptionSocials = "\n\n\n\n\
@@ -184,8 +194,8 @@ Follow our Socials!\n \
     fullVideoDescString += descriptionSocials
     summaryDescString += descriptionSocials
 
-    create_thumbnails_mod(wikipediatitle)
+    create_thumbnails_mod(wikipediatitle, language)
     uploadvideo("./OutputFiles/fullvideo.mp4", "./OutputFiles/fullvideosubs.srt", wikipediatitle + ": Full Video",
-                fullVideoDescString, "./OutputFiles/fullvideothumbnail.png")
+                fullVideoDescString, "./OutputFiles/fullvideothumbnail.png", language)
     uploadvideo("./OutputFiles/summaryvideo.mp4", "./OutputFiles/summaryvideosubs.srt", wikipediatitle + ": Summary",
-                summaryDescString, "./OutputFiles/summaryvideothumbnail.png")
+                summaryDescString, "./OutputFiles/summaryvideothumbnail.png", language)

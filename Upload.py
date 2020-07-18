@@ -5,7 +5,7 @@ import os
 from webdriver_manager.chrome import ChromeDriverManager
 
 
-def uploadvideo(video,subs,title,description,thumbnail):
+def uploadvideo(video,subs,title,description,thumbnail,language):
     driver = webdriver.Chrome(ChromeDriverManager().install())
     driver.get("https://studio.youtube.com/channel/UCsLCKPmJXsDh90Eum8eMZXw/videos/upload?d=ud&filter=%5B%5D&sort=%7B%22columnType%22%3A%22date%22%2C%22sortOrder%22%3A%22DESCENDING%22%7D")
     time.sleep(2)
@@ -38,8 +38,8 @@ def uploadvideo(video,subs,title,description,thumbnail):
     moreOptions.click()
     chooseSubLanguage = driver.find_element_by_xpath("/html/body/ytcp-uploads-dialog/paper-dialog/div/ytcp-animatable[1]/ytcp-uploads-details/div/ytcp-uploads-advanced/div[4]/ytcp-form-language-input/ytcp-form-select/ytcp-select/ytcp-text-dropdown-trigger/ytcp-dropdown-trigger")
     chooseSubLanguage.click()
-    englishSubs = driver.find_element_by_xpath("/html/body/ytcp-text-menu/paper-dialog/paper-listbox/paper-item[45]")
-    englishSubs.click()
+    subLanguage = driver.find_element_by_xpath("/html/body/ytcp-text-menu/paper-dialog/paper-listbox/paper-item[45]") if language == "en" else driver.find_element_by_xpath("/html/body/ytcp-text-menu/paper-dialog/paper-listbox/paper-item[78]")
+    subLanguage.click()
     time.sleep(2)
     chooseSubFile = driver.find_element_by_xpath("/html/body/ytcp-uploads-dialog/paper-dialog/div/ytcp-animatable[1]/ytcp-uploads-details/div/ytcp-uploads-advanced/ytcp-video-metadata-captions/div/div/ytcp-button")
     chooseSubFile.click()

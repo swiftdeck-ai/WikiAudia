@@ -25,12 +25,12 @@ def create_thumbnails(text):
     dSummary.text(xy, text, font=customfont, fill=BLACK)
     imSummary.save("./OutputFiles/summaryvideothumbnail.png")
 
-def create_thumbnails_mod(text):
+def create_thumbnails_mod(text, language):
     text = text.title()
     filenameFull = "./TNPics/WikiaudiaTNFull.png"
     imFull = Image.open(filenameFull)
     dFull = ImageDraw.Draw(imFull)
-    customfont = ImageFont.truetype("./Fonts/CenturyGothicBold.ttf", size=550)
+    customfont = ImageFont.truetype("./Fonts/CenturyGothicBold.ttf", size=550) if language == "en" else ImageFont.truetype("./Fonts/NotoSans-Bold.ttf", size=550)
     lines = textwrap.wrap(text, width=23)
     y_text = 100
     for line in lines:
@@ -42,7 +42,7 @@ def create_thumbnails_mod(text):
     filenameFull = "./TNPics/WikiaudiaTNSumm.png"
     imFull = Image.open(filenameFull)
     dFull = ImageDraw.Draw(imFull)
-    customfont = ImageFont.truetype("./Fonts/CenturyGothicBold.ttf", size=550)
+    customfont = ImageFont.truetype("./Fonts/CenturyGothicBold.ttf", size=550) if language == "en" else ImageFont.truetype("./Fonts/NotoSans-Bold.ttf", size=550)
     lines = textwrap.wrap(text, width=20)
     y_text = 100
     for line in lines:

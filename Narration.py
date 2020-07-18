@@ -24,7 +24,7 @@ def synthesizeTextHindi(text):
     client = texttospeech.TextToSpeechClient()
     synthesis_input = texttospeech.SynthesisInput(text=text)
     voice = texttospeech.VoiceSelectionParams(
-        language_code="hi-IN", ssml_gender=texttospeech.SsmlVoiceGender.MALE, name="hi-IN-Wavenet-D",
+        language_code="hi-IN", ssml_gender=texttospeech.SsmlVoiceGender.MALE, name="hi-IN-Wavenet-B",
     )
     audio_config = texttospeech.AudioConfig(
         audio_encoding=texttospeech.AudioEncoding.MP3

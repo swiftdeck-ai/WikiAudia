@@ -6,16 +6,16 @@ import shutil
 
 from Link import getlinkfromkw
 
-def saveImagebySearch(keyword, title, driver):
+def saveImagebySearch(keyword, title, driver, language):
     url = ""
     newimg = ""
     try:
-        url = getlinkfromkw(keyword, driver)
+        url = getlinkfromkw(keyword, driver, language)
         imageweb = urllib.request.urlopen(url)
         imagefilename = io.BytesIO(imageweb.read())
         newimg = Image.open(imagefilename)
     except:
-        url = getlinkfromkw(title, driver)
+        url = getlinkfromkw(title, driver, language)
         imageweb = urllib.request.urlopen(url)
         imagefilename = io.BytesIO(imageweb.read())
         newimg = Image.open(imagefilename)

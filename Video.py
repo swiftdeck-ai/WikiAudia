@@ -31,6 +31,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 # HINDI SUPPORT
 from indicnlp.tokenize.sentence_tokenize import sentence_split
 
+
 def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver, language='en'):
     runningsound = AudioSegment.from_mp3("./Downloads/audio/twinkle.mp3") + AudioSegment.silent(4000)
     introLength = MP3("./Downloads/audio/twinkle.mp3").info.length
@@ -39,14 +40,14 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver, la
         # ImageClip("./IntroPics/WikiAudiaLogoM.png").set_position(('center', 0)).set_duration(0.15).resize((1920, 1080)),
         # ImageClip("./IntroPics/WikiAudiaLogoL.png").set_position(('center', 0)).set_duration(introLength - 1.05).resize(
         #     (1920, 1080)),
-            ImageClip("./IntroPics/IntroAnimationZero.png").set_duration(0.590),
-            ImageClip("./IntroPics/IntroAnimationOne.png").set_duration(1.831),
-            ImageClip("./IntroPics/IntroAnimationTwo.png").set_duration(1.581),
-            ImageClip("./IntroPics/IntroAnimationThree.png").set_duration(1.197),
-            ImageClip("./IntroPics/IntroAnimationFour.png").set_duration(introLength - 5.256),
-            ImageClip("./IntroPics/Copyright.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080)),
-            ImageClip("./IntroPics/Captions.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080))
-        ]
+        ImageClip("./IntroPics/IntroAnimationZero.png").set_duration(0.590),
+        ImageClip("./IntroPics/IntroAnimationOne.png").set_duration(1.831),
+        ImageClip("./IntroPics/IntroAnimationTwo.png").set_duration(1.581),
+        ImageClip("./IntroPics/IntroAnimationThree.png").set_duration(1.197),
+        ImageClip("./IntroPics/IntroAnimationFour.png").set_duration(introLength - 5.256),
+        ImageClip("./IntroPics/Copyright.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080)),
+        ImageClip("./IntroPics/Captions.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080))
+    ]
     ms = (introLength + 4) * 1000
     runningsubstring = ""
     descriptionString = "Video Outline:\n\n(00:00:00) - Wikiaudia Channel Intro\n"
@@ -64,7 +65,7 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver, la
             elif language == 'hi':
                 bestword = getKeywordsHindi(sentence['content'], articleTitle)
                 print()
-            imagefilename = saveImagebySearch(bestword, articleTitle, driver)
+            imagefilename = saveImagebySearch(bestword, articleTitle, driver, language)
 
             if language == 'en':
                 audiofilename = synthesizeText(sentence['content'])
@@ -152,7 +153,7 @@ def create_videos(wikipediatitle, language='en'):
     if language == 'en':
         for summarySent in nltk.tokenize.sent_tokenize(articleSummary):
             summary_orderedRenderList.append({"content": summarySent})
-    elif language=='hi':
+    elif language == 'hi':
         sentences = sentence_split(articleSummary, lang='hi')
 
     summaryDescString = createVidSnippet(

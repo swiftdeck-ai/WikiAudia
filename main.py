@@ -33,9 +33,14 @@ def main():
 
 
 if __name__ == "__main__":
+
+    # for i in range(2):
     articles = getText(ADD_DOC_ID).strip().split('\n')
     for article in articles:
-        if len(articles) == 0 or article.strip() == '':
-            break
-        main()
-        articles = getText(ADD_DOC_ID).strip().split('\n')
+        try:
+            if len(articles) == 0 or article.strip() == '':
+                break
+            main()
+            articles = getText(ADD_DOC_ID).strip().split('\n')
+        except Exception as e:
+            print(e)

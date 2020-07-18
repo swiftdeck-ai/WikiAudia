@@ -19,11 +19,11 @@ def saveImagebySearch(keyword, title, driver):
         imageweb = urllib.request.urlopen(url)
         imagefilename = io.BytesIO(imageweb.read())
         newimg = Image.open(imagefilename)
-    # urllib.request.urlretrieve(url, "./downloads/images/currentimage.{}".format(url.split(".")[-1]))
+    # urllib.request.urlretrieve(url, "./Downloads/images/currentimage.{}".format(url.split(".")[-1]))
     # imageweb = urllib.request.urlopen(url)
     # imagefilename = io.BytesIO(imageweb.read())
     # newimg = Image.open(imagefilename)
-    # imagefilename = "./downloads/images/currentimage.{}".format(url.split(".")[-1])
+    # imagefilename = "./Downloads/images/currentimage.{}".format(url.split(".")[-1])
     print("Found Image")
     imgwidth, imgheight = newimg.size
     newwidth = imgwidth * 1080 // imgheight
@@ -37,7 +37,7 @@ def saveImagebySearch(keyword, title, driver):
     dst.paste(newimg, (flankingimage1.width, 0))
     dst.paste(flankingimage2, (flankingimage1.width + newimg.width, 0))
 
-    folder = './downloads/images'
+    folder = './Downloads/images'
     for filename in os.listdir(folder):
         file_path = os.path.join(folder, filename)
         try:
@@ -49,5 +49,5 @@ def saveImagebySearch(keyword, title, driver):
             print('Failed to delete')
 
     dst = dst.convert("RGB")
-    dst.save("./downloads/images/currentimage.png")
-    return "./downloads/images/currentimage.png"
+    dst.save("./Downloads/images/currentimage.png")
+    return "./Downloads/images/currentimage.png"

@@ -16,7 +16,7 @@ import wikipediaapi
 import nltk.tokenize
 
 # LOCAL CLASSES AND FUNCTIONS
-from Thumbnail import create_thumbnails, create_thumbnails_mod
+from Thumbnail import create_thumbnails_mod
 from Upload import uploadvideo
 from Keywords import getkeywords, getKeywordsHindi
 from Image import saveImagebySearch
@@ -39,22 +39,14 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver, la
         # ImageClip("./IntroPics/WikiAudiaLogoM.png").set_position(('center', 0)).set_duration(0.15).resize((1920, 1080)),
         # ImageClip("./IntroPics/WikiAudiaLogoL.png").set_position(('center', 0)).set_duration(introLength - 1.05).resize(
         #     (1920, 1080)),
-        # ImageClip("./IntroPics/Copyright.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080)),
-        # ImageClip("./IntroPics/CaptionsReminder.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080))
             ImageClip("./IntroPics/IntroAnimationZero.png").set_duration(0.590),
             ImageClip("./IntroPics/IntroAnimationOne.png").set_duration(1.831),
             ImageClip("./IntroPics/IntroAnimationTwo.png").set_duration(1.581),
             ImageClip("./IntroPics/IntroAnimationThree.png").set_duration(1.197),
-            ImageClip("./IntroPics/IntroAnimationFour.png").set_duration(introLength - 5.256)
+            ImageClip("./IntroPics/IntroAnimationFour.png").set_duration(introLength - 5.256),
+            ImageClip("./IntroPics/Copyright.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080)),
+            ImageClip("./IntroPics/Captions.png").set_position(('center', 0)).set_duration(2).resize((1920, 1080))
         ]
-
-    # vista = AudioFileClip("./downloads/audio/twinkle.mp3")
-    # introLength = MP3("./downloads/audio/twinkle.mp3").info.length
-    # zero = ImageClip("./IntroPics/IntroAnimationZero.png").set_duration(0.590)
-    # one = ImageClip("./IntroPics/IntroAnimationOne.png").set_duration(1.831)
-    # two = ImageClip("./IntroPics/IntroAnimationTwo.png").set_duration(1.581)
-    # three = ImageClip("./IntroPics/IntroAnimationThree.png").set_duration(1.197)
-    # four = ImageClip("./IntroPics/IntroAnimationFour.png").set_duration(introLength - 5.256)
     ms = (introLength + 4) * 1000
     runningsubstring = ""
     descriptionString = "Video Outline:\n\n(00:00:00) - Wikiaudia Channel Intro\n"
@@ -92,7 +84,7 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver, la
             imFull = Image.new('RGB', (1920, 1080))
             dFull = ImageDraw.Draw(imFull)
             customfont = ImageFont.truetype("./Fonts/CenturyGothicBold.ttf", size=100)
-            lines = textwrap.wrap(text, width=20)
+            lines = textwrap.wrap(text, width=28)
             _, fixedheight = customfont.getsize("AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz123456789.")
             y_text = 540 - len(lines) * fixedheight / 2
             for line in lines:
@@ -100,8 +92,8 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver, la
                 dFull.text(((1920 - width) / 2, y_text), line, font=customfont, fill=(255, 255, 255))
                 y_text += height
 
-            imFull.save("./downloads/images/currentimage.png")
-            textClipCreated = ImageClip("./downloads/images/currentimage.png").set_position(('center', 0)).set_duration(
+            imFull.save("./Downloads/images/currentimage.png")
+            textClipCreated = ImageClip("./Downloads/images/currentimage.png").set_position(('center', 0)).set_duration(
                 2).resize((1920, 1080))
 
             clips.append(textClipCreated)
@@ -123,8 +115,8 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver, la
 
     with open(subfile, 'w') as srtfile:
         srtfile.write(runningsubstring)
-    runningsound.export("./downloads/audio/runningaudio.mp3", format="mp3")
-    finalaudioClipCreated = AudioFileClip("./downloads/audio/runningaudio.mp3")
+    runningsound.export("./Downloads/audio/runningaudio.mp3", format="mp3")
+    finalaudioClipCreated = AudioFileClip("./Downloads/audio/runningaudio.mp3")
     concat_clip = concatenate_videoclips(clips, method="compose").set_audio(finalaudioClipCreated).resize((1920, 1080))
     concat_clip.write_videofile(videofilename, fps=10)
     return descriptionString

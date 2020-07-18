@@ -18,6 +18,6 @@ def wikitoDict(specwiki, wikiRenderList,language):
                 wikiRenderList.append({"content": sentRender})
 
         if len(sect.sections) != 0:
-            wikiDict[sect.title]["sections"] = wikitoDict(sect, wikiRenderList)
+            wikiDict[sect.title]["sections"] = wikitoDict(sect, wikiRenderList, language)
 
     return wikiDict

@@ -20,12 +20,13 @@ from Thumbnail import create_thumbnails
 from Upload import uploadvideo
 from Keywords import getkeywords, getKeywordsHindi
 from Image import saveImagebySearch
-from Narration import synthesizeText
+from Narration import *
 from Wikipedia import wikitoDict
 from Subtitles import formatdatetimetosub
 
 # WEB AND COMPUTER AUTOMATION MODULES
 from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
 
 # HINDI SUPPORT
 from indicnlp.tokenize.sentence_tokenize import sentence_split
@@ -71,7 +72,10 @@ def createVidSnippet(sentences, videofilename, articleTitle, subfile, driver, la
             elif language == 'hi':
                 bestword = getKeywordsHindi(sentence['content'])
             imagefilename = saveImagebySearch(bestword, articleTitle, driver)
-            audiofilename = synthesizeText(sentence['content'])
+            if language == 'en':
+                audiofilename = synthesizeText(sentence['content'])
+            elif language == 'hi':
+                audiofilename = synthesizeTextHindi(sentence['content'])
             lengthofaudiofile = float(MP3(audiofilename).info.length)
             deltatime = lengthofaudiofile * 1000
             # deltatime = 2000
@@ -131,7 +135,7 @@ def create_videos(wikipediatitle, language='en'):
 
     p_wiki = wiki_wiki.page(wikipediatitle)
 
-    driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver")
+    driver = webdriver.Chrome(ChromeDriverManager().install())
 
     full_orderedRenderList = [{'title': wikipediatitle}]
     _ = wikitoDict(p_wiki, full_orderedRenderList, language)

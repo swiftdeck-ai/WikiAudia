@@ -1,5 +1,7 @@
 from __future__ import print_function
 
+import re
+
 from GDocs import getText, addTitle, removeTitle, LOG_DOC_ID, ADD_DOC_ID
 import wikipedia
 from Video import create_videos
@@ -17,6 +19,8 @@ def main():
     # Detect Language of Translator
     translator = Translator()
     languageTopic = translator.translate(topic).src
+    if re.search('[a-zA-Z]', topic) is not None:
+        languageTopic = 'en'
     # To check existence for Wikipedia API
     wiki_wiki = wikipediaapi.Wikipedia(language=languageTopic, extract_format=wikipediaapi.ExtractFormat.WIKI)
     page = wiki_wiki.page(topic)

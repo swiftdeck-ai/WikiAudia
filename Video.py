@@ -196,6 +196,6 @@ Follow our Socials!\n \
 
     create_thumbnails_mod(wikipediatitle, language)
     uploadvideo("./OutputFiles/fullvideo.mp4", "./OutputFiles/fullvideosubs.srt", wikipediatitle + ": Full Video",
-                fullVideoDescString, "./OutputFiles/fullvideothumbnail.png", language)
+                fullVideoDescString, "./OutputFiles/fullvideothumbnail.png", language, full=True)
     uploadvideo("./OutputFiles/summaryvideo.mp4", "./OutputFiles/summaryvideosubs.srt", wikipediatitle + ": Summary",
-                summaryDescString, "./OutputFiles/summaryvideothumbnail.png", language)
+                summaryDescString, "./OutputFiles/summaryvideothumbnail.png", language, full=False)

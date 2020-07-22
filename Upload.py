@@ -41,23 +41,19 @@ def uploadvideo(video, subs, title, description, thumbnail, language, full=False
     playlist.click()
     done = driver.find_element_by_xpath("/html/body/ytcp-playlist-dialog/paper-dialog/div[2]/ytcp-button[3]/div")
     if language == 'hi' and full:
-        fullHindi = driver.find_element_by_xpath(
-            "/html/body/ytcp-playlist-dialog/paper-dialog/ytcp-checkbox-group/div/ul/iron-list/div/ytcp-ve[2]/li/label/ytcp-checkbox-lit/div")
+        fullHindi = driver.find_element_by_xpath("//*[text()[contains(.,'Full Videos - Hindi')]]")
         fullHindi.click()
         done.click()
     elif language == 'hi' and not full:
-        summaryHindi = driver.find_element_by_xpath(
-            "/html/body/ytcp-playlist-dialog/paper-dialog/ytcp-checkbox-group/div/ul/iron-list/div/ytcp-ve[1]/li/label/ytcp-checkbox-lit/div")
+        summaryHindi = driver.find_element_by_xpath("//*[text()[contains(.,'Summary Videos - Hindi')]]")
         summaryHindi.click()
         done.click()
     elif language == 'en' and full:
-        fullEnglish = driver.find_element_by_xpath(
-            "/html/body/ytcp-playlist-dialog/paper-dialog/ytcp-checkbox-group/div/ul/iron-list/div/ytcp-ve[4]/li/label/ytcp-checkbox-lit/div")
+        fullEnglish = driver.find_element_by_xpath("//*[text()[contains(.,'Full Videos - English')]]")
         fullEnglish.click()
         done.click()
     elif language == 'en' and not full:
-        summaryEnglish = driver.find_element_by_xpath(
-            "/html/body/ytcp-playlist-dialog/paper-dialog/ytcp-checkbox-group/div/ul/iron-list/div/ytcp-ve[3]/li/label/ytcp-checkbox-lit/div")
+        summaryEnglish = driver.find_element_by_xpath("//*[text()[contains(.,'Summary Videos - English')]]")
         summaryEnglish.click()
         done.click()
 

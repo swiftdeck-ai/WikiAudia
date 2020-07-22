@@ -16,6 +16,7 @@ def getkeywords(text, title):
     except:
         return title
 
+
 def hindiModel():
     train_data = indian.tagged_sents('hindi.pos')
     tnt_pos_tagger = tnt.TnT()
@@ -24,24 +25,24 @@ def hindiModel():
 
 
 def getKeywordsHindi(text, title):
-    model = hindiModel()
-    pos = (model.tag(nltk.word_tokenize(text)))
-    grammar = r"""NP:{<NN.*>}"""
-    chunkParser = nltk.RegexpParser(grammar)
-    chunked = chunkParser.parse(pos)
-    continuous_chunk = set()
-    current_chunk = []
-    for i in chunked:
-        if type(i) == nltk.Tree:
-            current_chunk.append(" ".join([token for token, pos in i.leaves()]))
-        elif current_chunk:
-            named_entity = " ".join(current_chunk)
-            if named_entity not in continuous_chunk:
-                continuous_chunk.add(named_entity)
-                current_chunk = []
-            else:
-                continue
     try:
-        return list(continuous_chunk)[0]
+        model = hindiModel()
+        pos = (model.tag(nltk.word_tokenize(text)))
+        grammar = r"""NP:{<NN.*>}"""
+        chunkParser = nltk.RegexpParser(grammar)
+        chunked = chunkParser.parse(pos)
+        continuous_chunk = set()
+        current_chunk = []
+        for i in chunked:
+            if type(i) == nltk.Tree:
+                current_chunk.append(" ".join([token for token, pos in i.leaves()]))
+            elif current_chunk:
+                named_entity = " ".join(current_chunk)
+                if named_entity not in continuous_chunk:
+                    continuous_chunk.add(named_entity)
+                    current_chunk = []
+                else:
+                    continue
+            return list(continuous_chunk)[0]
     except:
         return title

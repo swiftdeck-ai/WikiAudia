@@ -19,6 +19,8 @@ def main():
     # Detect Language of Translator
     translator = Translator()
     languageTopic = translator.translate(topic).src
+    if languageTopic != 'hi':
+        languageTopic = 'hi'
     if re.search('[a-zA-Z]', topic) is not None:
         languageTopic = 'en'
     # To check existence for Wikipedia API
@@ -29,7 +31,21 @@ def main():
         topic = wikipedia.random()
     # If the page does not exist, recursion
     if not page.exists():
-        main()
+        if languageTopic == 'hi':
+            languageTopic = 'en'
+            wiki_wiki = wikipediaapi.Wikipedia(language=languageTopic, extract_format=wikipediaapi.ExtractFormat.WIKI)
+            page = wiki_wiki.page(topic)
+            if not page.exists():
+                main()
+        elif languageTopic == 'en':
+            languageTopic = 'hi'
+            wiki_wiki = wikipediaapi.Wikipedia(language=languageTopic, extract_format=wikipediaapi.ExtractFormat.WIKI)
+            page = wiki_wiki.page(topic)
+            if not page.exists():
+                main()
+        else:
+            main()
+
     # If a video over it has not already been made then make the video
     if topic not in getText(LOG_DOC_ID).split('\n'):
         addTitle(topic, LOG_DOC_ID)

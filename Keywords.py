@@ -1,10 +1,9 @@
 import spacy
 import pytextrank
 import nltk
-from mtranslate import translate
 from nltk.tag import tnt
 from nltk.corpus import indian
-
+from googletrans import Translator
 
 def getkeywords(text, title):
     nlp = spacy.load("en_core_web_sm")
@@ -18,16 +17,8 @@ def getkeywords(text, title):
         return title
 
 
-def hindiModel():
-    train_data = indian.tagged_sents('hindi.pos')
-    tnt_pos_tagger = tnt.TnT()
-    tnt_pos_tagger.train(train_data)
-    return tnt_pos_tagger
-
-
 def getKeywordsHindi(text, title):
-    try:
-        text = translate(text, "en", "hi")
-        return getkeywords(text, title)
-    except:
-        return title
+    translator = Translator()
+    text = translator.translate(text, src='hi', dest='en').text
+    title = translator.translate(title, src='hi', dest='en').text
+    return getkeywords(text, title)

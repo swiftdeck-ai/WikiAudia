@@ -1,6 +1,7 @@
 import spacy
 import pytextrank
 import nltk
+from mtranslate import translate
 from nltk.tag import tnt
 from nltk.corpus import indian
 
@@ -26,23 +27,8 @@ def hindiModel():
 
 def getKeywordsHindi(text, title):
     try:
-        model = hindiModel()
-        pos = (model.tag(nltk.word_tokenize(text)))
-        grammar = r"""NP:{<NN.*>}"""
-        chunkParser = nltk.RegexpParser(grammar)
-        chunked = chunkParser.parse(pos)
-        continuous_chunk = set()
-        current_chunk = []
-        for i in chunked:
-            if type(i) == nltk.Tree:
-                current_chunk.append(" ".join([token for token, pos in i.leaves()]))
-            elif current_chunk:
-                named_entity = " ".join(current_chunk)
-                if named_entity not in continuous_chunk:
-                    continuous_chunk.add(named_entity)
-                    current_chunk = []
-                else:
-                    continue
-            return list(continuous_chunk)[0]
+        text = translate(text, "en", "hi")
+        return getkeywords(text, title)
     except:
+        print(title)
         return title

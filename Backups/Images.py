@@ -15,15 +15,9 @@ class simple_image_download:
         i = 0
         links = []
         while i < len(keyword_to_search):
-            if language == 'en':
-                url = 'https://www.google.com/search?q=' + quote(
-                    keyword_to_search[i].encode(
-                        'utf-8')) + '&tbm=isch&hl=en&hl=en&safe=active&safe=active&tbs=ic%3Acolor%2Citp%3Aphoto%2Cisz%3Alt%2Cislt%3Axga%2Csur%3Afc%2Ciar%3Aw&ved=0CAIQpwVqFwoTCJCq6aKfzeoCFQAAAAAdAAAAABAH&biw=1905&bih=949'
-            elif language == 'hi':
-                url = 'https://www.google.co.in/search?q=' + quote(
-                    keyword_to_search[i].encode(
-                        'utf-8')) + '&tbm=isch&hl=en&hl=en&safe=active&safe=active&tbs=ic%3Acolor%2Citp%3Aphoto%2Cisz%3Alt%2Cislt%3Axga%2Csur%3Afc%2Ciar%3Aw&ved=0CAIQpwVqFwoTCJCq6aKfzeoCFQAAAAAdAAAAABAH&biw=1905&bih=949'
-
+            url = 'https://www.google.com/search?q=' + quote(
+                keyword_to_search[i].encode(
+                    'utf-8')) + '&tbm=isch&hl=en&hl=en&safe=active&safe=active&tbs=ic%3Acolor%2Citp%3Aphoto%2Cisz%3Alt%2Cislt%3Axga%2Csur%3Afc%2Ciar%3Aw&ved=0CAIQpwVqFwoTCJCq6aKfzeoCFQAAAAAdAAAAABAH&biw=1905&bih=949'
             raw_html = self._download_page(url)
 
             end_object = -1
@@ -69,15 +63,9 @@ class simple_image_download:
 
         while i < len(keyword_to_search):
             self._create_directories(main_directory, keyword_to_search[i])
-            if language == 'en':
-                url = 'https://www.google.com/search?q=' + quote(
-                    keyword_to_search[i].encode(
-                        'utf-8')) + '&biw=1536&bih=674&tbm=isch&sxsrf=ACYBGNSXXpS6YmAKUiLKKBs6xWb4uUY5gA:1581168823770&source=lnms&sa=X&ved=0ahUKEwioj8jwiMLnAhW9AhAIHbXTBMMQ_AUI3QUoAQ'
-            elif language == 'hi':
-                url = 'https://www.google.co.in/search?q=' + quote(
-                    keyword_to_search[i].encode(
-                        'utf-8')) + '&biw=1536&bih=674&tbm=isch&sxsrf=ACYBGNSXXpS6YmAKUiLKKBs6xWb4uUY5gA:1581168823770&source=lnms&sa=X&ved=0ahUKEwioj8jwiMLnAhW9AhAIHbXTBMMQ_AUI3QUoAQ'
-
+            url = 'https://www.google.com/search?q=' + quote(
+                keyword_to_search[i].encode(
+                    'utf-8')) + '&biw=1536&bih=674&tbm=isch&sxsrf=ACYBGNSXXpS6YmAKUiLKKBs6xWb4uUY5gA:1581168823770&source=lnms&sa=X&ved=0ahUKEwioj8jwiMLnAhW9AhAIHbXTBMMQ_AUI3QUoAQ'
             raw_html = self._download_page(url)
 
             end_object = -1

@@ -19,7 +19,7 @@ def main():
     # Detect Language of Translator
     translator = Translator()
     languageTopic = translator.translate(topic).src
-    if languageTopic != 'hi':
+    if languageTopic != 'hi' and languageTopic != 'en':
         languageTopic = 'hi'
     if re.search('[a-zA-Z]', topic) is not None:
         languageTopic = 'en'

@@ -28,7 +28,6 @@ def hindiModel():
 def getKeywordsHindi(text, title):
     try:
         text = translate(text, "en", "hi")
-        title = translate(title, 'en', 'hi')
         return getkeywords(text, title)
     except:
         return title

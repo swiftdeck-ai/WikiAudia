@@ -43,7 +43,7 @@ def create_thumbnails_mod(text, language):
     imFull = Image.open(filenameFull)
     dFull = ImageDraw.Draw(imFull)
     customfont = ImageFont.truetype("./Fonts/CenturyGothicBold.ttf", size=550) if language == "en" else ImageFont.truetype("./Fonts/NotoSans-Bold.ttf", size=550)
-    lines = textwrap.wrap(text, width=20)
+    lines = textwrap.wrap(text, width=23)
     y_text = 100
     for line in lines:
         _, height = customfont.getsize(line)
